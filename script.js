@@ -1,325 +1,242 @@
-/* ===== RESET ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+// ============================================
+// ระบบ Login แบบรวม (User + Admin)
+// ============================================
 
-/* ===== BODY ===== */
-body {
-    background: linear-gradient(135deg, #0b3b3c, #1e6f5c);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* ===== LOGIN CONTAINER ===== */
-.login-container {
-    width: 100%;
-    max-width: 420px;
-}
-
-.login-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 40px 30px;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    transition: 0.3s;
-}
-
-/* ===== BRAND ===== */
-.brand {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    object-fit: contain;
-}
-
-.brand h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.brand h1 span {
-    color: #f5c542;
-}
-
-.brand p {
-    opacity: 0.8;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* ===== INPUT GROUP ===== */
-.input-group {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.input-group i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #ccc;
-    font-size: 18px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 14px 45px 14px 45px;
-    border: none;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    font-size: 16px;
-    outline: none;
-    transition: 0.3s;
-    border: 1px solid transparent;
-}
-
-.input-group input::placeholder {
-    color: #d0d0d0;
-}
-
-.input-group input:focus {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: #f5c542;
-}
-
-.toggle-password {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #ccc;
-    font-size: 18px;
-}
-
-.toggle-password:hover {
-    color: #fff;
-}
-
-/* ===== LOGIN TYPE (เลือก User/Admin) ===== */
-.login-type {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    transition: 0.3s;
-    font-size: 14px;
-}
-
-.radio-label:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.radio-label input[type="radio"] {
-    accent-color: #f5c542;
-    width: 16px;
-    height: 16px;
-}
-
-.radio-label input[type="radio"]:checked + span {
-    color: #f5c542;
-}
-
-.radio-label:has(input:checked) {
-    border-color: #f5c542;
-    background: rgba(245, 197, 66, 0.1);
-}
-
-.radio-label span i {
-    margin-right: 5px;
-}
-
-/* ===== OPTIONS ===== */
-.options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-.options a {
-    color: #f5c542;
-    text-decoration: none;
-}
-
-.options a:hover {
-    text-decoration: underline;
-}
-
-/* ===== BUTTONS ===== */
-.btn-login {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 50px;
-    background: #f5c542;
-    color: #1e2a2a;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.3);
-}
-
-.btn-login:hover {
-    background: #ffd966;
-    transform: scale(1.02);
-}
-
-.btn-login:active {
-    transform: scale(0.98);
-}
-
-/* ===== SIGNUP LINK ===== */
-.signup-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-.signup-link a {
-    color: #f5c542;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.signup-link a:hover {
-    text-decoration: underline;
-}
-
-/* ===== ERROR MESSAGE ===== */
-.error-message {
-    color: #ff6b6b;
-    background: rgba(255, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 30px;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
-    display: none;
-    animation: shake 0.5s;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
-
-/* ===== GITHUB SECTION ===== */
-.github-section {
-    margin-top: 25px;
-    text-align: center;
-}
-
-.github-section hr {
-    border: 0.5px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 15px;
-}
-
-.github-section p {
-    font-size: 13px;
-    opacity: 0.7;
-    margin-bottom: 12px;
-}
-
-.btn-github {
-    background: #24292e;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 600;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.btn-github i {
-    font-size: 20px;
-}
-
-.btn-github:hover {
-    background: #3b4148;
-    transform: scale(1.02);
-}
-
-/* ===== ADMIN HINT ===== */
-.admin-hint {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(245, 197, 66, 0.1);
-    border: 1px solid rgba(245, 197, 66, 0.2);
-    border-radius: 12px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.admin-hint i {
-    color: #f5c542;
-    font-size: 16px;
-}
-
-.admin-hint strong {
-    color: #f5c542;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-    .login-card {
-        padding: 30px 20px;
+// ===== 1. ข้อมูลผู้ใช้ (จำลอง) =====
+const USERS = {
+    // ผู้ใช้ทั่วไป
+    'user@surat.com': {
+        password: 'user123',
+        role: 'user',
+        name: 'ผู้ใช้ทั่วไป'
+    },
+    // ผู้ดูแลระบบ
+    'admin@surat.com': {
+        password: 'admin123',
+        role: 'admin',
+        name: 'ผู้ดูแลระบบ'
     }
-    .brand h1 {
-        font-size: 22px;
+};
+
+// ===== 2. แสดง/ซ่อนรหัสผ่าน =====
+const togglePassword = document.getElementById('togglePassword');
+const passwordField = document.getElementById('password');
+
+if (togglePassword && passwordField) {
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+}
+
+// ===== 3. ตรวจสอบการ Login =====
+const loginForm = document.getElementById('loginForm');
+const errorMsg = document.getElementById('errorMessage');
+
+if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const loginType = document.querySelector('input[name="loginType"]:checked').value;
+
+        // ตรวจสอบว่ากรอกครบหรือไม่
+        if (email === '' || password === '') {
+            showError('⚠️ กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน');
+            return;
+        }
+
+        // ตรวจสอบความยาวรหัสผ่าน
+        if (password.length < 6) {
+            showError('⚠️ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร');
+            return;
+        }
+
+        // ตรวจสอบว่ามีผู้ใช้นี้อยู่ในระบบหรือไม่
+        if (USERS[email]) {
+            const user = USERS[email];
+            
+            // ตรวจสอบรหัสผ่าน
+            if (password === user.password) {
+                // ✅ Login สำเร็จ
+
+                // ตรวจสอบว่าเลือกประเภทถูกต้องหรือไม่
+                if (loginType === 'admin' && user.role !== 'admin') {
+                    showError('⚠️ อีเมลนี้ไม่ใช่บัญชีผู้ดูแลระบบ กรุณาเลือก "ผู้ใช้ทั่วไป"');
+                    return;
+                }
+
+                if (loginType === 'user' && user.role === 'admin') {
+                    showError('⚠️ อีเมลนี้เป็นบัญชีผู้ดูแลระบบ กรุณาเลือก "ผู้ดูแลระบบ"');
+                    return;
+                }
+
+                // บันทึก session
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userRole', user.role);
+                localStorage.setItem('userName', user.name);
+                localStorage.setItem('loginTime', new Date().toISOString());
+
+                // จำฉัน
+                if (document.getElementById('rememberMe').checked) {
+                    localStorage.setItem('rememberMe', 'true');
+                }
+
+                // แจ้งเตือนและเปลี่ยนหน้า
+                errorMsg.style.display = 'none';
+                showSuccessAndRedirect(user.role);
+            } else {
+                // ❌ รหัสผ่านผิด
+                showError('❌ รหัสผ่านไม่ถูกต้อง');
+                logFailedAttempt(email);
+            }
+        } else {
+            // ❌ ไม่พบผู้ใช้
+            showError('❌ ไม่พบอีเมลนี้ในระบบ กรุณาสมัครสมาชิก');
+            logFailedAttempt(email);
+        }
+    });
+}
+
+// ===== 4. ฟังก์ชันแสดง Error =====
+function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.style.display = 'block';
+    
+    // เลื่อนไปที่ error
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ===== 5. ฟังก์ชัน Login สำเร็จ =====
+function showSuccessAndRedirect(role) {
+    // แสดงข้อความสำเร็จ
+    const successMsg = document.createElement('div');
+    successMsg.className = 'success-message';
+    successMsg.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        เข้าสู่ระบบสำเร็จ! กำลังนำคุณไปยังหน้า ${role === 'admin' ? 'ผู้ดูแลระบบ' : 'หลัก'}...
+    `;
+    successMsg.style.cssText = `
+        background: rgba(46, 213, 115, 0.2);
+        color: #2ed573;
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 15px;
+        border: 1px solid rgba(46, 213, 115, 0.3);
+        animation: fadeIn 0.5s;
+    `;
+    
+    // เพิ่ม CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // แทนที่ error ด้วย success
+    errorMsg.style.display = 'none';
+    const loginCard = document.querySelector('.login-card');
+    loginCard.appendChild(successMsg);
+
+    // เปลี่ยนหน้าตาม role
+    setTimeout(() => {
+        if (role === 'admin') {
+            window.location.href = 'admin-dashboard.html';
+        } else {
+            window.location.href = 'dashboard.html';
+        }
+    }, 2000);
+}
+
+// ===== 6. บันทึกการพยายาม Login ผิด =====
+function logFailedAttempt(email) {
+    let attempts = JSON.parse(localStorage.getItem('loginAttempts') || '{}');
+    
+    if (!attempts[email]) {
+        attempts[email] = 0;
     }
-    .login-type {
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-    }
-    .radio-label {
-        width: 100%;
-        justify-content: center;
+    attempts[email]++;
+    localStorage.setItem('loginAttempts', JSON.stringify(attempts));
+
+    if (attempts[email] >= 3) {
+        showError(`⚠️ คุณพยายามเข้าสู่ระบบผิดพลาด ${attempts[email]} ครั้ง กรุณาติดต่อผู้ดูแลระบบ`);
     }
 }
+
+// ===== 7. ตรวจสอบสถานะ Login (ป้องกันการเข้าหน้าโดยตรง) =====
+function checkAuth() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // ถ้ายังไม่ login และกำลังจะเข้าหน้า dashboard
+    if (!isLoggedIn && (currentPage === 'dashboard.html' || currentPage === 'admin-dashboard.html')) {
+        window.location.href = 'index.html';
+        return false;
+    }
+    
+    // ถ้า login แล้ว และอยู่หน้า login
+    if (isLoggedIn && currentPage === 'index.html') {
+        const role = localStorage.getItem('userRole');
+        if (role === 'admin') {
+            window.location.href = 'admin-dashboard.html';
+        } else {
+            window.location.href = 'dashboard.html';
+        }
+        return false;
+    }
+    
+    return true;
+}
+
+// ===== 8. ตรวจสอบสิทธิ์ Admin =====
+function checkAdmin() {
+    const role = localStorage.getItem('userRole');
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    if (currentPage === 'admin-dashboard.html' && role !== 'admin') {
+        alert('⚠️ คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
+        window.location.href = 'dashboard.html';
+        return false;
+    }
+    return true;
+}
+
+// ===== 9. ฟังก์ชัน Logout =====
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('loginTime');
+    window.location.href = 'index.html';
+}
+
+// ===== 10. ปุ่ม GitHub =====
+const githubBtn = document.getElementById('githubLogin');
+if (githubBtn) {
+    githubBtn.addEventListener('click', function() {
+        alert('🔗 กำลังเชื่อมต่อกับ GitHub...\n(เปลี่ยน URL เป็นของจริง)');
+        // window.location.href = 'https://github.com/login/oauth/authorize?client_id=YOUR_ID';
+    });
+}
+
+// ===== 11. เรียกใช้ตอนโหลดหน้า =====
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuth();
+    checkAdmin();
+    
+    // ถ้า login แล้ว แสดงชื่อผู้ใช้
+    const userName = localStorage.getItem('userName');
+    if (userName && document.getElementById('userDisplay')) {
+        document.getElementById('userDisplay').textContent = userName;
+    }
+});
+
+console.log('✅ ระบบ Login พร้อมทำงาน!');
