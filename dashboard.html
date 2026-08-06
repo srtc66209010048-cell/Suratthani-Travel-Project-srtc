@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าแรก - Surat Thani Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+        }
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            text-align: center;
+        }
+        .welcome-icon {
+            font-size: 60px;
+            color: #f5c542;
+            margin-bottom: 20px;
+        }
+        .dashboard-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .dashboard-card h1 span {
+            color: #f5c542;
+        }
+        .dashboard-card p {
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        .btn-logout {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .btn-logout:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: scale(1.05);
+        }
+        .btn-admin {
+            display: inline-block;
+            margin-top: 15px;
+            background: rgba(245, 197, 66, 0.2);
+            color: #f5c542;
+            border: 1px solid rgba(245, 197, 66, 0.3);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-admin:hover {
+            background: rgba(245, 197, 66, 0.3);
+            transform: scale(1.05);
+        }
+        .user-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .travel-places {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .place-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+        .place-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        .place-card i {
+            font-size: 30px;
+            color: #f5c542;
+            margin-bottom: 10px;
+        }
+        .place-card h4 {
+            margin-bottom: 5px;
+        }
+        .place-card p {
+            font-size: 13px;
+            opacity: 0.7;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-card">
+            <div class="welcome-icon">🏝️</div>
+            <h1>ยินดีต้อนรับ <span>Surat Thani</span></h1>
+            <p>ค้นพบสถานที่ท่องเที่ยวสวยงามในจังหวัดสุราษฎร์ธานี</p>
+            
+            <div class="user-info">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #f5c542;"></i>
+                <p style="margin-top: 10px; font-size: 18px;">
+                    สวัสดี! <strong id="userDisplay">ผู้ใช้</strong>
+                </p>
+                <p style="font-size: 14px; opacity: 0.6;">
+                    <i class="fas fa-clock"></i> เข้าสู่ระบบเมื่อ: <span id="loginTimeDisplay"></span>
+                </p>
+            </div>
+
+            <!-- สถานที่แนะนำ -->
+            <h3 style="margin-top: 30px; color: #f5c542;">
+                <i class="fas fa-map-marked-alt"></i> สถานที่แนะนำ
+            </h3>
+            <div class="travel-places">
+                <div class="place-card">
+                    <i class="fas fa-umbrella-beach"></i>
+                    <h4>เกาะสมุย</h4>
+                    <p>หาดทรายขาว น้ำทะเลใส</p>
+                </div>
+                <div class="place-card">
+                    <i class="fas fa-mountain"></i>
+                    <h4>เขาสก</h4>
+                    <p>ป่าเขาและทะเลสาบ</p>
+                </div>
+                <div class="place-card">
+                    <i class="fas fa-water"></i>
+                    <h4>หมู่เกาะอ่างทอง</h4>
+                    <p>อุทยานแห่งชาติทางทะเล</p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </button>
+                <a href="admin-dashboard.html" class="btn-admin">
+                    <i class="fas fa-user-shield"></i> ไปหน้า Admin
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const name = localStorage.getItem('userName') || 'ผู้ใช้';
+            document.getElementById('userDisplay').textContent = name;
+            
+            const loginTime = localStorage.getItem('loginTime');
+            if (loginTime) {
+                const date = new Date(loginTime);
+                document.getElementById('loginTimeDisplay').textContent = 
+                    date.toLocaleString('th-TH');
+            }
+        });
+    </script>
+</body>
+</html>
