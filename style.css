@@ -1,0 +1,225 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* พื้นหลัง */
+body {
+    background: linear-gradient(135deg, #0b3b3c, #1e6f5c);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* กล่อง login */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 40px 30px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+/* โลโก้ */
+.brand {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+.brand h1 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.brand h1 span {
+    color: #f5c542;
+}
+
+.brand p {
+    opacity: 0.8;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* ช่องกรอกข้อมูล */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+    font-size: 18px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 45px 14px 45px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.input-group input::placeholder {
+    color: #d0d0d0;
+}
+
+.input-group input:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #f5c542;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #ccc;
+    font-size: 18px;
+}
+
+/* ตัวเลือก */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.options a {
+    color: #f5c542;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* ปุ่ม login */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    background: #f5c542;
+    color: #1e2a2a;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(245, 197, 66, 0.3);
+}
+
+.btn-login:hover {
+    background: #ffd966;
+    transform: scale(1.02);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #f5c542;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* ข้อความ error */
+.error-message {
+    color: #ff6b6b;
+    background: rgba(255, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    display: none;
+}
+
+/* ปุ่ม GitHub */
+.github-section {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.github-section hr {
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 15px;
+}
+
+.github-section p {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-bottom: 12px;
+}
+
+.btn-github {
+    background: #24292e;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-github:hover {
+    background: #3b4148;
+    transform: scale(1.02);
+}
+
+/* จอเล็ก */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+    .brand h1 {
+        font-size: 22px;
+    }
+}
