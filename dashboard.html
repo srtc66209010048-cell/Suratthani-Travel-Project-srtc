@@ -190,6 +190,104 @@
             background: #0d5f59;
             transform: translateY(-2px);
         }
+
+        /* ===== Profile Page Styles ===== */
+        .profile-avatar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-avatar-wrapper .avatar-edit-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #0f766e;
+            color: #fff;
+            border: 3px solid #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        .profile-avatar-wrapper .avatar-edit-btn:hover {
+            background: #0d5f59;
+            transform: scale(1.1);
+        }
+        .profile-avatar-wrapper img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .profile-form input,
+        .profile-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: 0.3s;
+            background: #f9fafb;
+            font-family: 'Sarabun', sans-serif;
+        }
+        .profile-form input:focus,
+        .profile-form textarea:focus {
+            border-color: #0f766e;
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.1);
+        }
+        .profile-form label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .profile-form .form-group {
+            margin-bottom: 20px;
+        }
+        .profile-form .btn-save {
+            background: #0f766e;
+            color: #fff;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .profile-form .btn-save:hover {
+            background: #0d5f59;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(15, 118, 110, 0.3);
+        }
+        .profile-form .btn-cancel {
+            background: #f3f4f6;
+            color: #6b7280;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .profile-form .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        /* Hide file input */
+        #avatarInput {
+            display: none;
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -208,9 +306,9 @@
         <!-- โปรไฟล์ผู้ใช้ -->
         <div class="px-6 pb-6 border-b border-green-700/30">
             <div class="flex items-center gap-3">
-                <img src="https://ui-avatars.com/api/?name=User+One&background=random&size=128" alt="User" class="w-10 h-10 rounded-full border-2 border-white/20">
+                <img src="https://ui-avatars.com/api/?name=User+One&background=random&size=128" alt="User" class="w-10 h-10 rounded-full border-2 border-white/20" id="sidebarAvatar">
                 <div class="flex-1">
-                    <p class="font-semibold text-sm" id="userNameDisplay">สมาชิก</p>
+                    <p class="font-semibold text-sm" id="sidebarUserName">สมาชิก</p>
                     <p class="text-[10px] text-green-200">ผู้ใช้ทั่วไป</p>
                 </div>
             </div>
@@ -237,10 +335,10 @@
         </div>
     </aside>
 
-    <!-- MAIN CONTENT (เนื้อหาหลัก) -->
+    <!-- MAIN CONTENT -->
     <main class="ml-[260px] flex-1 flex flex-col h-screen overflow-hidden bg-[#f8fafc] p-6">
         
-        <!-- ส่วนหัวเรื่องด้านบน -->
+        <!-- HEADER -->
         <header class="bg-white rounded-2xl p-6 mb-6 custom-shadow flex justify-between items-center">
             <div>
                 <div class="flex items-center gap-2">
@@ -249,13 +347,13 @@
                 </div>
                 <p class="text-sm text-gray-500 mt-1" id="pageDescription">ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี</p>
             </div>
-            <div class="relative">
+            <div class="relative" id="searchContainer">
                 <input type="text" placeholder="ค้นหาสถานที่..." class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm bg-gray-50" id="searchInput">
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
             </div>
         </header>
 
-        <!-- ส่วนตัวกรองสถานที่ (Filter) -->
+        <!-- FILTER SECTION -->
         <div class="bg-white rounded-2xl p-6 mb-6 custom-shadow" id="filterSection">
             <div class="flex flex-wrap justify-between items-center gap-4 pb-5">
                 <div class="flex flex-wrap gap-2" id="filterGroup">
@@ -275,135 +373,9 @@
             </div>
         </div>
 
-        <!-- ส่วนรายการการ์ดสถานที่ -->
+        <!-- CONTENT AREA -->
         <div class="flex-1 overflow-y-auto pb-4 pr-1" id="contentArea">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
-                
-                <!-- การ์ด 1: เกาะสมุย -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="เกาะสมุย" data-location="อ.เกาะสมุย" data-description="เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ" data-route="เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก" data-tag="ชายหาด" data-reviews="120" data-image="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะสมุย</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 120 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ธรรมชาติ" data-name="เขื่อนเชี่ยวหลาน" data-location="อ.พนม" data-description="หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน" data-route="ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม" data-tag="ธรรมชาติ" data-reviews="98" data-image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เขื่อนเชี่ยวหลาน</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.พนม</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ธรรมชาติ</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 98 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="วัด ศาสนสถาน" data-name="วัดพระบรมธาตุไชยา" data-location="อ.ไชยา" data-description="เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่" data-route="ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา" data-tag="ศาสนสถาน" data-reviews="85" data-image="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">วัดพระบรมธาตุไชยา</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.ไชยา</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ศาสนสถาน</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 85 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- การ์ด 4: น้ำตกธารเสด็จ -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="น้ำตก ธรรมชาติ" data-name="น้ำตกธารเสด็จ" data-location="อ.บ้านนาสาร" data-description="น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน" data-route="ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร" data-tag="น้ำตก" data-reviews="70" data-image="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">น้ำตกธารเสด็จ</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.บ้านนาสาร</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> น้ำตก</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 70 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- การ์ด 5: เกาะเต่า -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล" data-name="เกาะเต่า" data-location="อ.เกาะพะงัน" data-description="สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด" data-route="นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก" data-tag="ทะเล" data-reviews="210" data-image="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะเต่า</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะพะงัน</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ทะเล</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 210 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- การ์ด 6: หาดในพัง -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="หาดในพัง" data-location="อ.เกาะสมุย" data-description="ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว" data-route="ตั้งอยู่ทางตอนใต้ของเกาะสมุย" data-tag="ชายหาด" data-reviews="54" data-image="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                    <div class="relative h-52 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
-                    </div>
-                    <div class="p-5 flex flex-col flex-1">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">หาดในพัง</h3>
-                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
-                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว</p>
-                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ทางตอนใต้ของเกาะสมุย</p>
-                        </div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
-                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
-                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 54 รีวิว</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ส่วนแบ่งหน้า (Pagination) -->
-            <div class="flex justify-center items-center mt-8 pt-4 text-sm text-gray-500">
-                <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-gray-100 shadow-sm">
-                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-left text-xs"></i></button>
-                    <button class="w-8 h-8 rounded-lg bg-[#0f766e] text-white font-medium shadow-sm flex items-center justify-center">1</button>
-                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition">2</button>
-                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-right text-xs"></i></button>
-                </div>
-            </div>
+            <!-- จะถูกแทนที่ด้วย JavaScript -->
         </div>
     </main>
 
@@ -433,72 +405,153 @@
         // JavaScript สำหรับหน้า Dashboard (User)
         // ============================================
 
-        // ===== 1. แสดงชื่อผู้ใช้ =====
-        const userName = localStorage.getItem('userName') || 'สมาชิก';
-        const userDisplay = document.getElementById('userNameDisplay');
-        if (userDisplay) {
-            userDisplay.textContent = userName;
+        // ===== 1. ข้อมูลผู้ใช้ =====
+        let userData = {
+            name: localStorage.getItem('userName') || 'สมาชิก',
+            email: localStorage.getItem('userEmail') || 'user@surat.com',
+            phone: localStorage.getItem('userPhone') || '081-234-5678',
+            bio: localStorage.getItem('userBio') || 'นักเดินทางที่รักการผจญภัย',
+            avatar: localStorage.getItem('userAvatar') || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(localStorage.getItem('userName') || 'สมาชิก') + '&background=random&size=256'
+        };
+
+        // ===== 2. ฟังก์ชันอัปเดต UI =====
+        function updateUserUI() {
+            // อัปเดต Sidebar
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            const sidebarName = document.getElementById('sidebarUserName');
+            if (sidebarAvatar) sidebarAvatar.src = userData.avatar;
+            if (sidebarName) sidebarName.textContent = userData.name;
+            
+            // อัปเดต LocalStorage
+            localStorage.setItem('userName', userData.name);
+            localStorage.setItem('userEmail', userData.email);
+            localStorage.setItem('userPhone', userData.phone);
+            localStorage.setItem('userBio', userData.bio);
+            localStorage.setItem('userAvatar', userData.avatar);
         }
 
-        // ===== 2. POPUP =====
-        const popupOverlay = document.getElementById('popupOverlay');
-        const popupClose = document.getElementById('popupClose');
-        const popupImage = document.getElementById('popupImage');
-        const popupName = document.getElementById('popupName');
-        const popupLocation = document.getElementById('popupLocation');
-        const popupDescription = document.getElementById('popupDescription');
-        const popupRoute = document.getElementById('popupRoute');
-        const popupTags = document.getElementById('popupTags');
-        const popupReviews = document.getElementById('popupReviews');
-
-        function openPopup(card) {
-            const name = card.dataset.name || 'ไม่ระบุ';
-            const location = card.dataset.location || 'ไม่ระบุ';
-            const description = card.dataset.description || 'ไม่มีคำอธิบาย';
-            const route = card.dataset.route || 'ไม่มีข้อมูลเส้นทาง';
-            const tag = card.dataset.tag || 'ทั่วไป';
-            const reviews = card.dataset.reviews || '0';
-            const image = card.dataset.image || '';
-
-            popupName.textContent = name;
-            popupLocation.textContent = location;
-            popupDescription.textContent = description;
-            popupRoute.textContent = route;
-            popupReviews.textContent = reviews;
-            popupImage.src = image;
-            popupImage.alt = name;
-            popupTags.innerHTML = `<span>${tag}</span>`;
-
-            popupOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePopup() {
-            popupOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // ปิด Popup
-        popupClose.addEventListener('click', closePopup);
-        popupOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closePopup();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closePopup();
-        });
-
-        // ===== 3. ฟังก์ชันตั้งค่า Event Listener สำหรับการ์ด =====
-        function setupPlaceCardListeners() {
-            document.querySelectorAll('.place-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    openPopup(this);
-                });
-            });
-        }
-
-        // ===== 4. ฟังก์ชันสร้างการ์ดสถานที่ (ใช้เมื่อเปลี่ยนหน้า) =====
-        function renderPlaceCards() {
+        // ===== 3. หน้าโปรไฟล์ =====
+        function renderProfilePage() {
             const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <div class="flex items-center justify-center h-full">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 w-full max-w-2xl">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-gray-800">👤 โปรไฟล์ของฉัน</h3>
+                            <p class="text-gray-500 text-sm">จัดการข้อมูลส่วนตัวของคุณ</p>
+                        </div>
+
+                        <!-- Avatar -->
+                        <div class="flex flex-col items-center mb-8">
+                            <div class="profile-avatar-wrapper">
+                                <img src="${userData.avatar}" alt="Profile" id="profileAvatar">
+                                <label for="avatarInput" class="avatar-edit-btn">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                <input type="file" id="avatarInput" accept="image/*">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2">คลิกไอคอนกล้องเพื่อเปลี่ยนรูป</p>
+                        </div>
+
+                        <!-- ฟอร์ม -->
+                        <form class="profile-form" id="profileForm">
+                            <div class="form-group">
+                                <label for="profileName"><i class="fas fa-user text-green-600 mr-2"></i> ชื่อ-นามสกุล</label>
+                                <input type="text" id="profileName" value="${userData.name}" placeholder="กรอกชื่อของคุณ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profileEmail"><i class="fas fa-envelope text-green-600 mr-2"></i> อีเมล</label>
+                                <input type="email" id="profileEmail" value="${userData.email}" placeholder="กรอกอีเมลของคุณ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profilePhone"><i class="fas fa-phone text-green-600 mr-2"></i> เบอร์โทรศัพท์</label>
+                                <input type="tel" id="profilePhone" value="${userData.phone}" placeholder="กรอกเบอร์โทรของคุณ">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="profileBio"><i class="fas fa-align-left text-green-600 mr-2"></i> เกี่ยวกับฉัน</label>
+                                <textarea id="profileBio" rows="3" placeholder="เล่าเรื่องราวของคุณ...">${userData.bio}</textarea>
+                            </div>
+
+                            <div class="flex gap-4 mt-2">
+                                <button type="submit" class="btn-save"><i class="fas fa-save mr-2"></i> บันทึกข้อมูล</button>
+                                <button type="button" class="btn-cancel" onclick="renderPlacesPage()"><i class="fas fa-times mr-2"></i> ยกเลิก</button>
+                            </div>
+                        </form>
+
+                        <div class="mt-6 pt-6 border-t border-gray-100 text-center">
+                            <p class="text-xs text-gray-400">
+                                <i class="fas fa-shield-alt text-green-600 mr-1"></i> 
+                                ข้อมูลของคุณถูกเก็บไว้ในเครื่องเท่านั้น
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // ===== Event: เปลี่ยนรูป Avatar =====
+            const avatarInput = document.getElementById('avatarInput');
+            if (avatarInput) {
+                avatarInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const avatarImg = document.getElementById('profileAvatar');
+                            if (avatarImg) {
+                                avatarImg.src = event.target.result;
+                                userData.avatar = event.target.result;
+                                updateUserUI();
+                                showNotification('✅ เปลี่ยนรูปโปรไฟล์สำเร็จ!');
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // ===== Event: บันทึกข้อมูล =====
+            const profileForm = document.getElementById('profileForm');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('profileName').value.trim();
+                    const email = document.getElementById('profileEmail').value.trim();
+                    const phone = document.getElementById('profilePhone').value.trim();
+                    const bio = document.getElementById('profileBio').value.trim();
+
+                    if (!name) {
+                        showNotification('⚠️ กรุณากรอกชื่อ-นามสกุล');
+                        return;
+                    }
+
+                    userData.name = name || userData.name;
+                    userData.email = email || userData.email;
+                    userData.phone = phone || userData.phone;
+                    userData.bio = bio || userData.bio;
+
+                    updateUserUI();
+                    showNotification('✅ บันทึกข้อมูลสำเร็จ!');
+                    
+                    // อัปเดต Sidebar
+                    const sidebarName = document.getElementById('sidebarUserName');
+                    if (sidebarName) sidebarName.textContent = userData.name;
+                });
+            }
+        }
+
+        // ===== 4. หน้าแรก (สถานที่ท่องเที่ยว) =====
+        function renderPlacesPage() {
+            const contentArea = document.getElementById('contentArea');
+            const filterSection = document.getElementById('filterSection');
+            const searchContainer = document.getElementById('searchContainer');
+            
+            filterSection.style.display = 'flex';
+            searchContainer.style.display = 'block';
+            
             contentArea.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
                     <!-- การ์ด 1: เกาะสมุย -->
@@ -633,9 +686,106 @@
             setupFilterListeners();
             setupSearchListener();
             setupPaginationListeners();
+            
+            // อัปเดตหัวข้อ
+            document.getElementById('pageTitle').textContent = 'สถานที่ท่องเที่ยว';
+            document.getElementById('pageDescription').textContent = 'ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี';
         }
 
-        // ===== 5. ฟังก์ชันอื่นๆ (Filter, Search, Pagination) =====
+        // ===== 5. หน้าหากิจกรรม =====
+        function renderActivitiesPage() {
+            const contentArea = document.getElementById('contentArea');
+            const filterSection = document.getElementById('filterSection');
+            const searchContainer = document.getElementById('searchContainer');
+            
+            filterSection.style.display = 'none';
+            searchContainer.style.display = 'none';
+            
+            contentArea.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                    <i class="fas fa-calendar-check text-6xl text-green-500 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-2">หน้ากิจกรรม</h3>
+                    <p class="text-gray-400">กำลังพัฒนาระบบกิจกรรมท่องเที่ยว...</p>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-700">🚤 ล่องเรือเขื่อนรัชชประภา</h4>
+                            <p class="text-sm text-gray-500">ชมวิวสวยๆ บนเขื่อน</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-700">🤿 ดำน้ำเกาะเต่า</h4>
+                            <p class="text-sm text-gray-500">ดำน้ำชมปะการัง</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-700">🏝️ เที่ยวเกาะสมุย</h4>
+                            <p class="text-sm text-gray-500">ทัวร์รอบเกาะ</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <h4 class="font-bold text-gray-700">🌿 นั่งเรือชมป่าชายเลน</h4>
+                            <p class="text-sm text-gray-500">สัมผัสธรรมชาติ</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('pageTitle').textContent = 'กิจกรรม';
+            document.getElementById('pageDescription').textContent = 'กิจกรรมและทัวร์ที่น่าสนใจในจังหวัดสุราษฎร์ธานี';
+        }
+
+        // ===== 6. POPUP =====
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupClose = document.getElementById('popupClose');
+        const popupImage = document.getElementById('popupImage');
+        const popupName = document.getElementById('popupName');
+        const popupLocation = document.getElementById('popupLocation');
+        const popupDescription = document.getElementById('popupDescription');
+        const popupRoute = document.getElementById('popupRoute');
+        const popupTags = document.getElementById('popupTags');
+        const popupReviews = document.getElementById('popupReviews');
+
+        function openPopup(card) {
+            const name = card.dataset.name || 'ไม่ระบุ';
+            const location = card.dataset.location || 'ไม่ระบุ';
+            const description = card.dataset.description || 'ไม่มีคำอธิบาย';
+            const route = card.dataset.route || 'ไม่มีข้อมูลเส้นทาง';
+            const tag = card.dataset.tag || 'ทั่วไป';
+            const reviews = card.dataset.reviews || '0';
+            const image = card.dataset.image || '';
+
+            popupName.textContent = name;
+            popupLocation.textContent = location;
+            popupDescription.textContent = description;
+            popupRoute.textContent = route;
+            popupReviews.textContent = reviews;
+            popupImage.src = image;
+            popupImage.alt = name;
+            popupTags.innerHTML = `<span>${tag}</span>`;
+
+            popupOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            popupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        popupClose.addEventListener('click', closePopup);
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closePopup();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closePopup();
+        });
+
+        // ===== 7. Event Listeners =====
+        function setupPlaceCardListeners() {
+            document.querySelectorAll('.place-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    openPopup(this);
+                });
+            });
+        }
+
         function setupFilterListeners() {
             const filterButtons = document.querySelectorAll('#filterGroup button');
             const placeCards = document.querySelectorAll('.place-card');
@@ -709,7 +859,7 @@
             });
         }
 
-        // ===== 6. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
+        // ===== 8. Notification =====
         function showNotification(message) {
             const oldNotif = document.querySelector('.custom-notification');
             if (oldNotif) oldNotif.remove();
@@ -734,7 +884,7 @@
             }, 3000);
         }
 
-        // ===== 7. เมนูนำทาง =====
+        // ===== 9. เมนูนำทาง =====
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -748,86 +898,22 @@
                 this.classList.remove('text-gray-300');
                 this.classList.add('bg-white/20', 'text-white');
                 
-                const titleElement = document.getElementById('pageTitle');
-                const descElement = document.getElementById('pageDescription');
-                const filterSection = document.getElementById('filterSection');
-                const contentArea = document.getElementById('contentArea');
-                const searchInput = document.getElementById('searchInput');
-                
                 if (page === 'places') {
-                    titleElement.textContent = 'สถานที่ท่องเที่ยว';
-                    descElement.textContent = 'ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี';
-                    filterSection.style.display = 'flex';
-                    if (searchInput) searchInput.style.display = 'block';
-                    renderPlaceCards();
+                    renderPlacesPage();
                     showNotification('📍 กำลังแสดงสถานที่ท่องเที่ยวทั้งหมด');
                 }
                 else if (page === 'activities') {
-                    titleElement.textContent = 'กิจกรรม';
-                    descElement.textContent = 'กิจกรรมและทัวร์ที่น่าสนใจในจังหวัดสุราษฎร์ธานี';
-                    filterSection.style.display = 'none';
-                    if (searchInput) searchInput.style.display = 'none';
-                    contentArea.innerHTML = `
-                        <div class="flex flex-col items-center justify-center h-full text-gray-500">
-                            <i class="fas fa-calendar-check text-6xl text-green-500 mb-4"></i>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-2">หน้ากิจกรรม</h3>
-                            <p class="text-gray-400">กำลังพัฒนาระบบกิจกรรมท่องเที่ยว...</p>
-                            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                                    <h4 class="font-bold text-gray-700">🚤 ล่องเรือเขื่อนรัชชประภา</h4>
-                                    <p class="text-sm text-gray-500">ชมวิวสวยๆ บนเขื่อน</p>
-                                </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                                    <h4 class="font-bold text-gray-700">🤿 ดำน้ำเกาะเต่า</h4>
-                                    <p class="text-sm text-gray-500">ดำน้ำชมปะการัง</p>
-                                </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                                    <h4 class="font-bold text-gray-700">🏝️ เที่ยวเกาะสมุย</h4>
-                                    <p class="text-sm text-gray-500">ทัวร์รอบเกาะ</p>
-                                </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                                    <h4 class="font-bold text-gray-700">🌿 นั่งเรือชมป่าชายเลน</h4>
-                                    <p class="text-sm text-gray-500">สัมผัสธรรมชาติ</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    renderActivitiesPage();
                     showNotification('🎯 กำลังเปิดหน้ากิจกรรม');
                 }
                 else if (page === 'profile') {
-                    titleElement.textContent = 'โปรไฟล์ของฉัน';
-                    descElement.textContent = 'จัดการข้อมูลส่วนตัวของคุณ';
-                    filterSection.style.display = 'none';
-                    if (searchInput) searchInput.style.display = 'none';
-                    contentArea.innerHTML = `
-                        <div class="flex flex-col items-center justify-center h-full text-gray-500">
-                            <i class="fas fa-user-circle text-6xl text-green-500 mb-4"></i>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-2">โปรไฟล์ของฉัน</h3>
-                            <p class="text-gray-400">จัดการข้อมูลส่วนตัวของคุณ</p>
-                            <div class="mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full max-w-md">
-                                <div class="flex items-center gap-4 mb-4">
-                                    <img src="https://ui-avatars.com/api/?name=${userName}&background=random&size=128" class="w-16 h-16 rounded-full">
-                                    <div>
-                                        <h4 class="font-bold text-gray-700">${userName}</h4>
-                                        <p class="text-sm text-gray-500">ผู้ใช้ทั่วไป</p>
-                                    </div>
-                                </div>
-                                <div class="border-t border-gray-100 pt-4">
-                                    <p class="text-sm text-gray-600"><i class="fas fa-envelope text-green-500 mr-2"></i> ${localStorage.getItem('userEmail') || 'user@surat.com'}</p>
-                                    <p class="text-sm text-gray-600 mt-2"><i class="fas fa-calendar text-green-500 mr-2"></i> สมาชิกตั้งแต่: 1 มกราคม 2567</p>
-                                </div>
-                                <button class="mt-4 w-full bg-[#0f766e] text-white py-2 rounded-xl hover:bg-[#0d5f59] transition">
-                                    <i class="fas fa-edit"></i> แก้ไขโปรไฟล์
-                                </button>
-                            </div>
-                        </div>
-                    `;
+                    renderProfilePage();
                     showNotification('👤 กำลังเปิดโปรไฟล์ของฉัน');
                 }
             });
         });
 
-        // ===== 8. ปุ่มออกจากระบบ =====
+        // ===== 10. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
@@ -835,18 +921,20 @@
                 localStorage.removeItem('userEmail');
                 localStorage.removeItem('userRole');
                 localStorage.removeItem('userName');
+                localStorage.removeItem('userPhone');
+                localStorage.removeItem('userBio');
+                localStorage.removeItem('userAvatar');
                 localStorage.removeItem('loginTime');
                 window.location.href = 'index.html';
             }
         });
 
-        // ===== 9. ตั้งค่าเริ่มต้น =====
-        setupPlaceCardListeners();
-        setupFilterListeners();
-        setupSearchListener();
-        setupPaginationListeners();
+        // ===== 11. ตั้งค่าเริ่มต้น =====
+        updateUserUI();
+        renderPlacesPage();
 
         console.log('✅ Dashboard พร้อมทำงาน!');
+        console.log('👤 ผู้ใช้:', userData.name);
     </script>
 </body>
 </html>
