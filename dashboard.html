@@ -62,11 +62,11 @@
 
         <!-- เมนูนำทาง -->
         <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200" data-page="dashboard">
-                <i class="fas fa-home w-5"></i> <span class="text-sm font-medium">แดชบอร์ด</span>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="dashboard">
+                <i class="fas fa-home w-5"></i> <span class="text-sm">แดชบอร์ด</span>
             </a>
-            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="places">
-                <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm">สถานที่ท่องเที่ยว</span>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200" data-page="places">
+                <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm font-medium">สถานที่ท่องเที่ยว</span>
             </a>
             <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="activities">
                 <i class="fas fa-calendar-check w-5"></i> <span class="text-sm">กิจกรรม</span>
@@ -266,11 +266,263 @@
             userDisplay.textContent = userName;
         }
 
-        // ===== 2. เมนูนำทาง (ใช้งานได้จริง) =====
+        // ===== 2. ฟังก์ชันสร้างการ์ดสถานที่ (ใช้เมื่อกลับมาหน้าสถานที่) =====
+        function renderPlaceCards() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
+                    <!-- การ์ด 1: เกาะสมุย -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะสมุย</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 120 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ธรรมชาติ">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เขื่อนเชี่ยวหลาน</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.พนม</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ธรรมชาติ</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 98 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="วัด ศาสนสถาน">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">วัดพระบรมธาตุไชยา</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.ไชยา</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ศาสนสถาน</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 85 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ด 4: น้ำตกธารเสด็จ -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="น้ำตก ธรรมชาติ">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">น้ำตกธารเสด็จ</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.บ้านนาสาร</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> น้ำตก</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 70 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- การ์ด 5: เกาะเต่า -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะเต่า</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะพะงัน</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ทะเล</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 210 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     <!-- การ์ด 6: หาดในพัง -->
+                     <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                        <div class="relative h-52 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
+                        </div>
+                        <div class="p-5 flex flex-col flex-1">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">หาดในพัง</h3>
+                                <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
+                                <p class="text-sm text-gray-600 mb-2 line-clamp-2">ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว</p>
+                                <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ทางตอนใต้ของเกาะสมุย</p>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                                <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
+                                <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 54 รีวิว</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ส่วนแบ่งหน้า (Pagination) -->
+                <div class="flex justify-center items-center mt-8 pt-4 text-sm text-gray-500">
+                    <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-gray-100 shadow-sm">
+                        <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-left text-xs"></i></button>
+                        <button class="w-8 h-8 rounded-lg bg-[#0f766e] text-white font-medium shadow-sm flex items-center justify-center">1</button>
+                        <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition">2</button>
+                        <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-right text-xs"></i></button>
+                    </div>
+                </div>
+            `;
+
+            // รีเซ็ต Event Listener สำหรับการ์ดใหม่
+            setupPlaceCardListeners();
+            setupFilterListeners();
+            setupSearchListener();
+            setupPaginationListeners();
+        }
+
+        // ===== 3. ฟังก์ชันตั้งค่า Event Listener สำหรับการ์ดสถานที่ =====
+        function setupPlaceCardListeners() {
+            document.querySelectorAll('.place-card').forEach(card => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('h3')?.textContent || 'สถานที่';
+                    showNotification(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
+                });
+            });
+        }
+
+        // ===== 4. ฟังก์ชันตั้งค่า Event Listener สำหรับปุ่มกรอง =====
+        function setupFilterListeners() {
+            const filterButtons = document.querySelectorAll('#filterGroup button');
+            const placeCards = document.querySelectorAll('.place-card');
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('bg-[#10b981]', 'text-white');
+                        b.classList.add('bg-gray-100', 'text-gray-600');
+                    });
+                    
+                    this.classList.remove('bg-gray-100', 'text-gray-600');
+                    this.classList.add('bg-[#10b981]', 'text-white');
+                    
+                    const filter = this.textContent.trim();
+                    
+                    placeCards.forEach(card => {
+                        const tags = card.getAttribute('data-tags') || '';
+                        
+                        if (filter === 'ทั้งหมด') {
+                            card.style.display = 'flex';
+                        } else if (tags.includes(filter)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // ===== 5. ฟังก์ชันตั้งค่า Event Listener สำหรับช่องค้นหา =====
+        function setupSearchListener() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                // ลบ event เก่าทิ้ง (ถ้ามี)
+                const newSearchInput = searchInput.cloneNode(true);
+                searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+                
+                newSearchInput.addEventListener('input', function() {
+                    const keyword = this.value.toLowerCase().trim();
+                    const placeCards = document.querySelectorAll('.place-card');
+                    
+                    placeCards.forEach(card => {
+                        const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                        const desc = card.querySelector('p.text-sm')?.textContent.toLowerCase() || '';
+                        
+                        if (title.includes(keyword) || desc.includes(keyword)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        }
+
+        // ===== 6. ฟังก์ชันตั้งค่า Event Listener สำหรับ Pagination =====
+        function setupPaginationListeners() {
+            document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const text = this.textContent.trim();
+                    if (text === '‹' || text === '›' || text === '') return;
+                    
+                    document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(b => {
+                        b.classList.remove('bg-[#0f766e]', 'text-white');
+                        b.classList.add('text-gray-600');
+                    });
+                    this.classList.remove('text-gray-600');
+                    this.classList.add('bg-[#0f766e]', 'text-white');
+                    
+                    showNotification(`📄 กำลังโหลดหน้า ${text}`);
+                });
+            });
+        }
+
+        // ===== 7. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
+        function showNotification(message) {
+            // ลบ notification เก่าทิ้ง
+            const oldNotif = document.querySelector('.custom-notification');
+            if (oldNotif) oldNotif.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = 'custom-notification fixed top-4 right-4 bg-[#0f766e] text-white px-6 py-4 rounded-xl shadow-lg z-50';
+            notification.style.animation = 'slideIn 0.5s ease forwards';
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check-circle text-xl"></i>
+                    <span class="font-medium">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease forwards';
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        }
+
+        // ===== 8. เมนูนำทาง (ใช้งานได้จริง) =====
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const text = this.textContent.trim();
                 const page = this.getAttribute('data-page');
                 
                 // ลบคลาส active ทั้งหมด
@@ -283,30 +535,35 @@
                 this.classList.remove('text-gray-300');
                 this.classList.add('bg-white/20', 'text-white');
                 
-                // ===== จัดการตามเมนูที่คลิก =====
                 const titleElement = document.getElementById('pageTitle');
                 const descElement = document.getElementById('pageDescription');
                 const filterSection = document.getElementById('filterSection');
                 const contentArea = document.getElementById('contentArea');
+                const searchInput = document.getElementById('searchInput');
                 
                 if (page === 'dashboard') {
                     titleElement.textContent = 'แดชบอร์ด';
                     descElement.textContent = 'ภาพรวมสถานที่ท่องเที่ยวและกิจกรรมในจังหวัดสุราษฎร์ธานี';
                     filterSection.style.display = 'flex';
-                    contentArea.style.display = 'flex';
+                    if (searchInput) searchInput.style.display = 'block';
+                    // รีเซ็ตกลับมาแสดงการ์ดสถานที่
+                    renderPlaceCards();
                     showNotification('🏠 กลับสู่หน้าแดชบอร์ด');
                 }
                 else if (page === 'places') {
                     titleElement.textContent = 'สถานที่ท่องเที่ยว';
                     descElement.textContent = 'ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี';
                     filterSection.style.display = 'flex';
-                    contentArea.style.display = 'flex';
+                    if (searchInput) searchInput.style.display = 'block';
+                    // รีเซ็ตกลับมาแสดงการ์ดสถานที่
+                    renderPlaceCards();
                     showNotification('📍 กำลังแสดงสถานที่ท่องเที่ยวทั้งหมด');
                 }
                 else if (page === 'activities') {
                     titleElement.textContent = 'กิจกรรม';
                     descElement.textContent = 'กิจกรรมและทัวร์ที่น่าสนใจในจังหวัดสุราษฎร์ธานี';
                     filterSection.style.display = 'none';
+                    if (searchInput) searchInput.style.display = 'none';
                     contentArea.innerHTML = `
                         <div class="flex flex-col items-center justify-center h-full text-gray-500">
                             <i class="fas fa-calendar-check text-6xl text-green-500 mb-4"></i>
@@ -338,6 +595,7 @@
                     titleElement.textContent = 'โปรไฟล์ของฉัน';
                     descElement.textContent = 'จัดการข้อมูลส่วนตัวของคุณ';
                     filterSection.style.display = 'none';
+                    if (searchInput) searchInput.style.display = 'none';
                     contentArea.innerHTML = `
                         <div class="flex flex-col items-center justify-center h-full text-gray-500">
                             <i class="fas fa-user-circle text-6xl text-green-500 mb-4"></i>
@@ -366,33 +624,7 @@
             });
         });
 
-        // ===== 3. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
-        function showNotification(message) {
-            // ลบ notification เก่าทิ้ง
-            const oldNotif = document.querySelector('.custom-notification');
-            if (oldNotif) oldNotif.remove();
-            
-            const notification = document.createElement('div');
-            notification.className = 'custom-notification fixed top-4 right-4 bg-[#0f766e] text-white px-6 py-4 rounded-xl shadow-lg z-50';
-            notification.style.animation = 'slideIn 0.5s ease forwards';
-            notification.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-xl"></i>
-                    <span class="font-medium">${message}</span>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s ease forwards';
-                setTimeout(() => {
-                    notification.remove();
-                }, 500);
-            }, 3000);
-        }
-
-        // ===== 4. ปุ่มออกจากระบบ =====
+        // ===== 9. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
@@ -405,80 +637,12 @@
             }
         });
 
-        // ===== 5. ปุ่มกรองสถานที่ (Filter) =====
-        const filterButtons = document.querySelectorAll('#filterGroup button');
-        const placeCards = document.querySelectorAll('.place-card');
-
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                filterButtons.forEach(b => {
-                    b.classList.remove('bg-[#10b981]', 'text-white');
-                    b.classList.add('bg-gray-100', 'text-gray-600');
-                });
-                
-                this.classList.remove('bg-gray-100', 'text-gray-600');
-                this.classList.add('bg-[#10b981]', 'text-white');
-                
-                const filter = this.textContent.trim();
-                
-                placeCards.forEach(card => {
-                    const tags = card.getAttribute('data-tags') || '';
-                    
-                    if (filter === 'ทั้งหมด') {
-                        card.style.display = 'flex';
-                    } else if (tags.includes(filter)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // ===== 6. ปุ่มค้นหา =====
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                const keyword = this.value.toLowerCase().trim();
-                
-                placeCards.forEach(card => {
-                    const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
-                    const desc = card.querySelector('p.text-sm')?.textContent.toLowerCase() || '';
-                    
-                    if (title.includes(keyword) || desc.includes(keyword)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        }
-
-        // ===== 7. คลิกที่การ์ดสถานที่ =====
-        placeCards.forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function() {
-                const title = this.querySelector('h3')?.textContent || 'สถานที่';
-                showNotification(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
-            });
-        });
-
-        // ===== 8. ปุ่ม Pagination =====
-        document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const text = this.textContent.trim();
-                if (text === '‹' || text === '›' || text === '') return;
-                
-                document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(b => {
-                    b.classList.remove('bg-[#0f766e]', 'text-white');
-                    b.classList.add('text-gray-600');
-                });
-                this.classList.remove('text-gray-600');
-                this.classList.add('bg-[#0f766e]', 'text-white');
-                
-                showNotification(`📄 กำลังโหลดหน้า ${text}`);
-            });
-        });
+        // ===== 10. ตั้งค่าเริ่มต้น =====
+        // โหลดการ์ดครั้งแรก
+        setupPlaceCardListeners();
+        setupFilterListeners();
+        setupSearchListener();
+        setupPaginationListeners();
 
         console.log('✅ Dashboard พร้อมทำงาน!');
     </script>
