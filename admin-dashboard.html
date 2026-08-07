@@ -283,6 +283,24 @@
             transform: scale(1.05);
         }
 
+        /* ===== ปุ่มรีเซ็ตรหัสผ่าน (เพิ่มใหม่) ===== */
+        .btn-reset {
+            background: rgba(52, 152, 219, 0.15);
+            color: #3498db;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+            margin-right: 5px;
+        }
+
+        .btn-reset:hover {
+            background: rgba(52, 152, 219, 0.3);
+            transform: scale(1.05);
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -359,6 +377,33 @@
             border-color: #f5c542;
         }
 
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 500;
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .toast-success {
+            background: #2ed573;
+        }
+
+        .toast-error {
+            background: #ff6b6b;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1200px) {
             .stats-grid {
@@ -416,7 +461,8 @@
             }
 
             .btn-delete,
-            .btn-edit {
+            .btn-edit,
+            .btn-reset {
                 padding: 4px 10px;
                 font-size: 11px;
             }
@@ -439,33 +485,6 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #2d8f7a;
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: #fff;
-            font-weight: 500;
-            z-index: 999;
-            animation: slideUp 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .toast-success {
-            background: #2ed573;
-        }
-
-        .toast-error {
-            background: #ff6b6b;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -588,7 +607,6 @@
 
         // ===== 2. ดึงข้อมูลผู้ใช้ทั้งหมด =====
         function getUsers() {
-            // ผู้ใช้เริ่มต้น
             const defaultUsers = {
                 'admin@surat.com': {
                     name: 'ผู้ดูแลระบบ',
@@ -601,10 +619,7 @@
                 }
             };
 
-            // ดึงผู้ใช้ที่สมัครจาก localStorage
             const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
-            
-            // รวมข้อมูล
             const allUsers = { ...defaultUsers, ...registeredUsers };
             return allUsers;
         }
@@ -664,10 +679,13 @@
                         <td style="font-size: 12px; opacity: 0.7;">${dateStr}</td>
                         <td>
                             ${user.role !== 'admin' ? `
-                                <button class="btn-edit" onclick="editUser('${user.email}')">
+                                <button class="btn-edit" onclick="editUser('${user.email}')" title="แก้ไขชื่อ">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete" onclick="deleteUser('${user.email}')">
+                                <button class="btn-reset" onclick="resetPassword('${user.email}')" title="รีเซ็ตรหัสผ่าน">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                                <button class="btn-delete" onclick="deleteUser('${user.email}')" title="ลบผู้ใช้">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             ` : `
@@ -712,7 +730,7 @@
             }
         }
 
-        // ===== 6. แก้ไขผู้ใช้ =====
+        // ===== 6. แก้ไขชื่อผู้ใช้ =====
         function editUser(email) {
             const users = getUsers();
             const user = users[email];
@@ -721,11 +739,10 @@
                 return;
             }
 
-            const newName = prompt('แก้ไขชื่อผู้ใช้:', user.name);
+            const newName = prompt('✏️ แก้ไขชื่อผู้ใช้:', user.name);
             if (newName && newName.trim()) {
                 user.name = newName.trim();
                 
-                // อัปเดตใน localStorage
                 const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
                 if (registeredUsers[email]) {
                     registeredUsers[email].name = newName.trim();
@@ -736,7 +753,57 @@
             }
         }
 
-        // ===== 7. แสดง Toast =====
+        // ===== 7. รีเซ็ตรหัสผ่านผู้ใช้ (เพิ่มใหม่) =====
+        function resetPassword(email) {
+            if (email === 'admin@surat.com') {
+                showToast('❌ ไม่สามารถรีเซ็ตรหัสผ่านผู้ดูแลระบบหลักได้', 'error');
+                return;
+            }
+
+            const users = getUsers();
+            if (!users[email]) {
+                showToast('❌ ไม่พบผู้ใช้', 'error');
+                return;
+            }
+
+            const newPassword = prompt(
+                `🔑 รีเซ็ตรหัสผ่านสำหรับ "${email}"\n\n` +
+                `กรอกรหัสผ่านใหม่ (อย่างน้อย 6 ตัวอักษร):`
+            );
+
+            if (newPassword === null) {
+                showToast('❌ ยกเลิกการรีเซ็ตรหัสผ่าน', 'error');
+                return;
+            }
+
+            if (newPassword.trim().length < 6) {
+                showToast('❌ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร', 'error');
+                return;
+            }
+
+            if (newPassword.trim() === '') {
+                showToast('❌ กรุณากรอกรหัสผ่าน', 'error');
+                return;
+            }
+
+            if (!confirm(`⚠️ คุณแน่ใจว่าจะรีเซ็ตรหัสผ่านของ "${email}" ใช่หรือไม่?`)) {
+                showToast('❌ ยกเลิกการรีเซ็ตรหัสผ่าน', 'error');
+                return;
+            }
+
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            if (registeredUsers[email]) {
+                registeredUsers[email].password = newPassword.trim();
+                localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                renderUsers();
+                showToast(`✅ รีเซ็ตรหัสผ่านสำหรับ "${email}" สำเร็จ!`, 'success');
+            } else {
+                showToast('❌ ไม่พบผู้ใช้ในระบบ', 'error');
+            }
+        }
+
+        // ===== 8. แสดง Toast =====
         function showToast(message, type = 'success') {
             const oldToast = document.querySelector('.toast');
             if (oldToast) oldToast.remove();
@@ -751,7 +818,7 @@
             }, 3000);
         }
 
-        // ===== 8. แสดงหน้าการจัดการผู้ใช้ =====
+        // ===== 9. แสดงหน้าการจัดการผู้ใช้ =====
         function showUsers() {
             document.querySelectorAll('.action-btn').forEach(btn => btn.classList.remove('active'));
             event.target.closest('.action-btn').classList.add('active');
@@ -759,7 +826,7 @@
             renderUsers();
         }
 
-        // ===== 9. ฟังก์ชัน Logout =====
+        // ===== 10. ฟังก์ชัน Logout =====
         function logout() {
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
                 localStorage.removeItem('isLoggedIn');
