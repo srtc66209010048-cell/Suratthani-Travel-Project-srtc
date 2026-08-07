@@ -34,6 +34,162 @@
         }
         .notification-in { animation: slideIn 0.5s ease forwards; }
         .notification-out { animation: slideOut 0.5s ease forwards; }
+
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .popup-overlay.active {
+            display: flex;
+        }
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .popup-box {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+            position: relative;
+        }
+        .popup-box::-webkit-scrollbar {
+            width: 4px;
+        }
+        .popup-box::-webkit-scrollbar-thumb {
+            background: #0f766e;
+            border-radius: 10px;
+        }
+        .popup-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .popup-close:hover {
+            background: #fff;
+            transform: rotate(90deg);
+        }
+        .popup-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+        }
+        .popup-body {
+            padding: 28px 30px 30px;
+        }
+        .popup-body h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        .popup-body .location {
+            color: #0f766e;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .popup-body .description {
+            color: #4b5563;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .popup-body .route {
+            background: #f0fdf4;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: #0f766e;
+            font-size: 14px;
+            border: 1px solid #dcfce7;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .popup-body .route i {
+            margin-top: 2px;
+        }
+        .popup-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .popup-tags span {
+            background: #e8f5e9;
+            color: #0f766e;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .popup-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 16px;
+        }
+        .popup-footer .reviews {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .popup-footer .reviews i {
+            color: #f59e0b;
+        }
+        .popup-footer .btn-book {
+            background: #0f766e;
+            color: #fff;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+        .popup-footer .btn-book:hover {
+            background: #0d5f59;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -60,7 +216,7 @@
             </div>
         </div>
 
-        <!-- เมนูนำทาง (ลบแดชบอร์ดออกแล้ว) -->
+        <!-- เมนูนำทาง -->
         <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
             <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200" data-page="places">
                 <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm font-medium">สถานที่ท่องเที่ยว</span>
@@ -119,14 +275,13 @@
             </div>
         </div>
 
-        <!-- ส่วนรายการการ์ดสถานที่ (GRID VIEW) -->
+        <!-- ส่วนรายการการ์ดสถานที่ -->
         <div class="flex-1 overflow-y-auto pb-4 pr-1" id="contentArea">
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
                 
                 <!-- การ์ด 1: เกาะสมุย -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="เกาะสมุย" data-location="อ.เกาะสมุย" data-description="เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ" data-route="เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก" data-tag="ชายหาด" data-reviews="120" data-image="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -144,9 +299,8 @@
                 </div>
 
                 <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ธรรมชาติ">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ธรรมชาติ" data-name="เขื่อนเชี่ยวหลาน" data-location="อ.พนม" data-description="หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน" data-route="ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม" data-tag="ธรรมชาติ" data-reviews="98" data-image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -164,9 +318,8 @@
                 </div>
 
                 <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="วัด ศาสนสถาน">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="วัด ศาสนสถาน" data-name="วัดพระบรมธาตุไชยา" data-location="อ.ไชยา" data-description="เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่" data-route="ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา" data-tag="ศาสนสถาน" data-reviews="85" data-image="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -184,9 +337,8 @@
                 </div>
 
                 <!-- การ์ด 4: น้ำตกธารเสด็จ -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="น้ำตก ธรรมชาติ">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="น้ำตก ธรรมชาติ" data-name="น้ำตกธารเสด็จ" data-location="อ.บ้านนาสาร" data-description="น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน" data-route="ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร" data-tag="น้ำตก" data-reviews="70" data-image="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -204,9 +356,8 @@
                 </div>
 
                 <!-- การ์ด 5: เกาะเต่า -->
-                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล" data-name="เกาะเต่า" data-location="อ.เกาะพะงัน" data-description="สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด" data-route="นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก" data-tag="ทะเล" data-reviews="210" data-image="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -223,10 +374,9 @@
                     </div>
                 </div>
                 
-                 <!-- การ์ด 6: หาดในพัง -->
-                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                <!-- การ์ด 6: หาดในพัง -->
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="หาดในพัง" data-location="อ.เกาะสมุย" data-description="ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว" data-route="ตั้งอยู่ทางตอนใต้ของเกาะสมุย" data-tag="ชายหาด" data-reviews="54" data-image="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                     <div class="relative h-52 bg-gray-100">
-                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -257,6 +407,27 @@
         </div>
     </main>
 
+    <!-- ===== POPUP DETAIL ===== -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-box">
+            <button class="popup-close" id="popupClose"><i class="fas fa-times"></i></button>
+            <img src="" alt="" class="popup-image" id="popupImage">
+            <div class="popup-body">
+                <h2 id="popupName">ชื่อสถานที่</h2>
+                <div class="location"><i class="fas fa-map-pin"></i> <span id="popupLocation">อ.เกาะสมุย</span></div>
+                <p class="description" id="popupDescription">คำอธิบายสถานที่</p>
+                <div class="route"><i class="fas fa-route"></i> <span id="popupRoute">เส้นทาง...</span></div>
+                <div class="popup-tags" id="popupTags">
+                    <span>ชายหาด</span>
+                </div>
+                <div class="popup-footer">
+                    <span class="reviews"><i class="fas fa-star"></i> <span id="popupReviews">120</span> รีวิว</span>
+                    <button class="btn-book"><i class="fas fa-calendar-plus"></i> จองทัวร์</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ============================================
         // JavaScript สำหรับหน้า Dashboard (User)
@@ -269,13 +440,69 @@
             userDisplay.textContent = userName;
         }
 
-        // ===== 2. ฟังก์ชันสร้างการ์ดสถานที่ =====
+        // ===== 2. POPUP =====
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupClose = document.getElementById('popupClose');
+        const popupImage = document.getElementById('popupImage');
+        const popupName = document.getElementById('popupName');
+        const popupLocation = document.getElementById('popupLocation');
+        const popupDescription = document.getElementById('popupDescription');
+        const popupRoute = document.getElementById('popupRoute');
+        const popupTags = document.getElementById('popupTags');
+        const popupReviews = document.getElementById('popupReviews');
+
+        function openPopup(card) {
+            const name = card.dataset.name || 'ไม่ระบุ';
+            const location = card.dataset.location || 'ไม่ระบุ';
+            const description = card.dataset.description || 'ไม่มีคำอธิบาย';
+            const route = card.dataset.route || 'ไม่มีข้อมูลเส้นทาง';
+            const tag = card.dataset.tag || 'ทั่วไป';
+            const reviews = card.dataset.reviews || '0';
+            const image = card.dataset.image || '';
+
+            popupName.textContent = name;
+            popupLocation.textContent = location;
+            popupDescription.textContent = description;
+            popupRoute.textContent = route;
+            popupReviews.textContent = reviews;
+            popupImage.src = image;
+            popupImage.alt = name;
+            popupTags.innerHTML = `<span>${tag}</span>`;
+
+            popupOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup() {
+            popupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ปิด Popup
+        popupClose.addEventListener('click', closePopup);
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closePopup();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closePopup();
+        });
+
+        // ===== 3. ฟังก์ชันตั้งค่า Event Listener สำหรับการ์ด =====
+        function setupPlaceCardListeners() {
+            document.querySelectorAll('.place-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    openPopup(this);
+                });
+            });
+        }
+
+        // ===== 4. ฟังก์ชันสร้างการ์ดสถานที่ (ใช้เมื่อเปลี่ยนหน้า) =====
         function renderPlaceCards() {
             const contentArea = document.getElementById('contentArea');
             contentArea.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
                     <!-- การ์ด 1: เกาะสมุย -->
-                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="เกาะสมุย" data-location="อ.เกาะสมุย" data-description="เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ" data-route="เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก" data-tag="ชายหาด" data-reviews="120" data-image="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
                         </div>
@@ -294,7 +521,7 @@
                     </div>
 
                     <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
-                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ธรรมชาติ">
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ธรรมชาติ" data-name="เขื่อนเชี่ยวหลาน" data-location="อ.พนม" data-description="หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน" data-route="ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม" data-tag="ธรรมชาติ" data-reviews="98" data-image="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
                         </div>
@@ -313,7 +540,7 @@
                     </div>
 
                     <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
-                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="วัด ศาสนสถาน">
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="วัด ศาสนสถาน" data-name="วัดพระบรมธาตุไชยา" data-location="อ.ไชยา" data-description="เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่" data-route="ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา" data-tag="ศาสนสถาน" data-reviews="85" data-image="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
                         </div>
@@ -332,7 +559,7 @@
                     </div>
 
                     <!-- การ์ด 4: น้ำตกธารเสด็จ -->
-                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="น้ำตก ธรรมชาติ">
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="น้ำตก ธรรมชาติ" data-name="น้ำตกธารเสด็จ" data-location="อ.บ้านนาสาร" data-description="น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน" data-route="ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร" data-tag="น้ำตก" data-reviews="70" data-image="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
                         </div>
@@ -351,7 +578,7 @@
                     </div>
 
                     <!-- การ์ด 5: เกาะเต่า -->
-                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล">
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล" data-name="เกาะเต่า" data-location="อ.เกาะพะงัน" data-description="สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด" data-route="นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก" data-tag="ทะเล" data-reviews="210" data-image="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
                         </div>
@@ -369,8 +596,8 @@
                         </div>
                     </div>
                     
-                     <!-- การ์ด 6: หาดในพัง -->
-                     <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
+                    <!-- การ์ด 6: หาดในพัง -->
+                    <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full cursor-pointer" data-tags="ทะเล ชายหาด" data-name="หาดในพัง" data-location="อ.เกาะสมุย" data-description="ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว" data-route="ตั้งอยู่ทางตอนใต้ของเกาะสมุย" data-tag="ชายหาด" data-reviews="54" data-image="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
                         <div class="relative h-52 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
                         </div>
@@ -390,7 +617,7 @@
 
                 </div>
 
-                <!-- ส่วนแบ่งหน้า (Pagination) -->
+                <!-- Pagination -->
                 <div class="flex justify-center items-center mt-8 pt-4 text-sm text-gray-500">
                     <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-gray-100 shadow-sm">
                         <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-left text-xs"></i></button>
@@ -401,24 +628,14 @@
                 </div>
             `;
 
-            // รีเซ็ต Event Listener
+            // ตั้งค่า Event Listeners ใหม่
             setupPlaceCardListeners();
             setupFilterListeners();
             setupSearchListener();
             setupPaginationListeners();
         }
 
-        // ===== 3. ฟังก์ชันตั้งค่า Event Listener =====
-        function setupPlaceCardListeners() {
-            document.querySelectorAll('.place-card').forEach(card => {
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('h3')?.textContent || 'สถานที่';
-                    showNotification(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
-                });
-            });
-        }
-
+        // ===== 5. ฟังก์ชันอื่นๆ (Filter, Search, Pagination) =====
         function setupFilterListeners() {
             const filterButtons = document.querySelectorAll('#filterGroup button');
             const placeCards = document.querySelectorAll('.place-card');
@@ -436,7 +653,7 @@
                     const filter = this.textContent.trim();
                     
                     placeCards.forEach(card => {
-                        const tags = card.getAttribute('data-tags') || '';
+                        const tags = card.dataset.tags || '';
                         
                         if (filter === 'ทั้งหมด') {
                             card.style.display = 'flex';
@@ -492,7 +709,7 @@
             });
         }
 
-        // ===== 4. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
+        // ===== 6. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
         function showNotification(message) {
             const oldNotif = document.querySelector('.custom-notification');
             if (oldNotif) oldNotif.remove();
@@ -517,7 +734,7 @@
             }, 3000);
         }
 
-        // ===== 5. เมนูนำทาง =====
+        // ===== 7. เมนูนำทาง =====
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -610,7 +827,7 @@
             });
         });
 
-        // ===== 6. ปุ่มออกจากระบบ =====
+        // ===== 8. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
@@ -623,7 +840,7 @@
             }
         });
 
-        // ===== 7. ตั้งค่าเริ่มต้น =====
+        // ===== 9. ตั้งค่าเริ่มต้น =====
         setupPlaceCardListeners();
         setupFilterListeners();
         setupSearchListener();
