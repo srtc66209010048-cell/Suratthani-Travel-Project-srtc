@@ -60,11 +60,8 @@
             </div>
         </div>
 
-        <!-- เมนูนำทาง -->
+        <!-- เมนูนำทาง (ลบแดชบอร์ดออกแล้ว) -->
         <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="dashboard">
-                <i class="fas fa-home w-5"></i> <span class="text-sm">แดชบอร์ด</span>
-            </a>
             <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200" data-page="places">
                 <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm font-medium">สถานที่ท่องเที่ยว</span>
             </a>
@@ -129,6 +126,7 @@
                 <!-- การ์ด 1: เกาะสมุย -->
                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -148,6 +146,7 @@
                 <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ธรรมชาติ">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -167,6 +166,7 @@
                 <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="วัด ศาสนสถาน">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -186,6 +186,7 @@
                 <!-- การ์ด 4: น้ำตกธารเสด็จ -->
                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="น้ำตก ธรรมชาติ">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -205,6 +206,7 @@
                 <!-- การ์ด 5: เกาะเต่า -->
                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -224,6 +226,7 @@
                  <!-- การ์ด 6: หาดในพัง -->
                  <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
                     <div class="relative h-52 bg-gray-100">
+                        <!-- 👇 เปลี่ยนลิงก์รูปตรงนี้ -->
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
                     </div>
                     <div class="p-5 flex flex-col flex-1">
@@ -266,7 +269,7 @@
             userDisplay.textContent = userName;
         }
 
-        // ===== 2. ฟังก์ชันสร้างการ์ดสถานที่ (ใช้เมื่อกลับมาหน้าสถานที่) =====
+        // ===== 2. ฟังก์ชันสร้างการ์ดสถานที่ =====
         function renderPlaceCards() {
             const contentArea = document.getElementById('contentArea');
             contentArea.innerHTML = `
@@ -398,14 +401,14 @@
                 </div>
             `;
 
-            // รีเซ็ต Event Listener สำหรับการ์ดใหม่
+            // รีเซ็ต Event Listener
             setupPlaceCardListeners();
             setupFilterListeners();
             setupSearchListener();
             setupPaginationListeners();
         }
 
-        // ===== 3. ฟังก์ชันตั้งค่า Event Listener สำหรับการ์ดสถานที่ =====
+        // ===== 3. ฟังก์ชันตั้งค่า Event Listener =====
         function setupPlaceCardListeners() {
             document.querySelectorAll('.place-card').forEach(card => {
                 card.style.cursor = 'pointer';
@@ -416,7 +419,6 @@
             });
         }
 
-        // ===== 4. ฟังก์ชันตั้งค่า Event Listener สำหรับปุ่มกรอง =====
         function setupFilterListeners() {
             const filterButtons = document.querySelectorAll('#filterGroup button');
             const placeCards = document.querySelectorAll('.place-card');
@@ -448,11 +450,9 @@
             });
         }
 
-        // ===== 5. ฟังก์ชันตั้งค่า Event Listener สำหรับช่องค้นหา =====
         function setupSearchListener() {
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
-                // ลบ event เก่าทิ้ง (ถ้ามี)
                 const newSearchInput = searchInput.cloneNode(true);
                 searchInput.parentNode.replaceChild(newSearchInput, searchInput);
                 
@@ -474,7 +474,6 @@
             }
         }
 
-        // ===== 6. ฟังก์ชันตั้งค่า Event Listener สำหรับ Pagination =====
         function setupPaginationListeners() {
             document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -493,9 +492,8 @@
             });
         }
 
-        // ===== 7. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
+        // ===== 4. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
         function showNotification(message) {
-            // ลบ notification เก่าทิ้ง
             const oldNotif = document.querySelector('.custom-notification');
             if (oldNotif) oldNotif.remove();
             
@@ -519,19 +517,17 @@
             }, 3000);
         }
 
-        // ===== 8. เมนูนำทาง (ใช้งานได้จริง) =====
+        // ===== 5. เมนูนำทาง =====
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const page = this.getAttribute('data-page');
                 
-                // ลบคลาส active ทั้งหมด
                 document.querySelectorAll('nav a').forEach(a => {
                     a.classList.remove('bg-white/20', 'text-white');
                     a.classList.add('text-gray-300');
                 });
                 
-                // เพิ่มคลาส active ให้เมนูที่ถูกคลิก
                 this.classList.remove('text-gray-300');
                 this.classList.add('bg-white/20', 'text-white');
                 
@@ -541,21 +537,11 @@
                 const contentArea = document.getElementById('contentArea');
                 const searchInput = document.getElementById('searchInput');
                 
-                if (page === 'dashboard') {
-                    titleElement.textContent = 'แดชบอร์ด';
-                    descElement.textContent = 'ภาพรวมสถานที่ท่องเที่ยวและกิจกรรมในจังหวัดสุราษฎร์ธานี';
-                    filterSection.style.display = 'flex';
-                    if (searchInput) searchInput.style.display = 'block';
-                    // รีเซ็ตกลับมาแสดงการ์ดสถานที่
-                    renderPlaceCards();
-                    showNotification('🏠 กลับสู่หน้าแดชบอร์ด');
-                }
-                else if (page === 'places') {
+                if (page === 'places') {
                     titleElement.textContent = 'สถานที่ท่องเที่ยว';
                     descElement.textContent = 'ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี';
                     filterSection.style.display = 'flex';
                     if (searchInput) searchInput.style.display = 'block';
-                    // รีเซ็ตกลับมาแสดงการ์ดสถานที่
                     renderPlaceCards();
                     showNotification('📍 กำลังแสดงสถานที่ท่องเที่ยวทั้งหมด');
                 }
@@ -624,7 +610,7 @@
             });
         });
 
-        // ===== 9. ปุ่มออกจากระบบ =====
+        // ===== 6. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
@@ -637,8 +623,7 @@
             }
         });
 
-        // ===== 10. ตั้งค่าเริ่มต้น =====
-        // โหลดการ์ดครั้งแรก
+        // ===== 7. ตั้งค่าเริ่มต้น =====
         setupPlaceCardListeners();
         setupFilterListeners();
         setupSearchListener();
