@@ -47,8 +47,7 @@ body {
 /* ===== ด้านซ้าย - รูปภาพ ===== */
 .login-image {
     flex: 1;
-    /* พื้นหลังสี + รูปภาพ */
-    background: linear-gradient(135deg, #0b3b3c 0%, #1e6f5c 100%);
+    background-color: #0b3b3c;
     background-image: url('assets/images/login-bg.jpg');
     background-size: cover;
     background-position: center;
@@ -62,21 +61,21 @@ body {
     min-height: 500px;
 }
 
-/* Overlay สีเข้มให้ข้อความอ่านง่าย */
+/* Overlay สีเข้ม */
 .image-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(11, 59, 60, 0.6);
+    background: rgba(11, 59, 60, 0.55);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1;
 }
 
-/* เอฟเฟกต์แสงหมุนรอบ (ตกแต่ง) */
+/* เอฟเฟกต์แสงหมุน */
 .login-image::before {
     content: '';
     position: absolute;
@@ -102,34 +101,53 @@ body {
     z-index: 2;
 }
 
-.image-icon {
-    font-size: 80px;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
+/* ===== ข้อความบนรูป ===== */
+.brand-text {
+    text-align: center;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+    padding: 20px;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-.image-content h2 {
-    font-size: 32px;
+.brand-text h1 {
+    font-size: 48px;
     font-weight: 700;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0;
+    line-height: 1.1;
 }
 
-.image-content h2 span {
+.brand-text h1 span {
     color: #f5c542;
 }
 
-.image-content p {
-    font-size: 16px;
-    opacity: 0.9;
+.brand-text h2 {
+    font-size: 38px;
     font-weight: 300;
-    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    letter-spacing: 4px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-top: -5px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.brand-text p {
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 0.95;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.brand-text .sub-text {
+    font-size: 16px;
+    font-weight: 300;
+    opacity: 0.8;
+    color: #f5c542;
+    letter-spacing: 2px;
 }
 
 /* ===== ด้านขวา - ฟอร์ม ===== */
@@ -205,11 +223,6 @@ body {
     box-shadow: 0 0 0 4px rgba(30, 111, 92, 0.1);
 }
 
-.input-group input.error {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
-}
-
 /* ===== PASSWORD WRAPPER ===== */
 .password-wrapper {
     position: relative;
@@ -242,7 +255,6 @@ body {
     margin-bottom: 25px;
 }
 
-/* Checkbox สวยๆ */
 .checkbox-label {
     display: flex;
     align-items: center;
@@ -330,17 +342,10 @@ body {
 
 .btn-login:active {
     transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(30, 111, 92, 0.2);
 }
 
 .btn-login i {
     font-size: 18px;
-}
-
-.btn-login:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
 }
 
 /* ===== DIVIDER ===== */
@@ -399,7 +404,6 @@ body {
     font-size: 20px;
 }
 
-/* Google Button */
 .btn-google {
     color: #ea4335;
 }
@@ -410,7 +414,6 @@ body {
     box-shadow: 0 4px 15px rgba(234, 67, 53, 0.15);
 }
 
-/* Facebook Button */
 .btn-facebook {
     color: #1877f2;
 }
@@ -477,29 +480,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== ADMIN HINT (แจ้งเตือน Admin) ===== */
-.admin-hint {
-    margin-top: 15px;
-    padding: 10px 15px;
-    background: rgba(245, 197, 66, 0.1);
-    border: 1px solid rgba(245, 197, 66, 0.2);
-    border-radius: 10px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.admin-hint i {
-    color: #f5c542;
-    font-size: 16px;
-}
-
-.admin-hint strong {
-    color: #f5c542;
-}
-
 /* ===== RESPONSIVE ===== */
 @media (max-width: 850px) {
     .login-container {
@@ -509,20 +489,21 @@ body {
     }
     
     .login-image {
-        padding: 40px 30px;
+        padding: 30px 20px;
         min-height: 250px;
     }
     
-    .image-icon {
-        font-size: 50px;
+    .brand-text h1 {
+        font-size: 32px;
     }
-    
-    .image-content h2 {
+    .brand-text h2 {
         font-size: 24px;
     }
-    
-    .image-content p {
-        font-size: 14px;
+    .brand-text p {
+        font-size: 15px;
+    }
+    .brand-text .sub-text {
+        font-size: 13px;
     }
     
     .login-form {
@@ -545,21 +526,21 @@ body {
     }
     
     .login-image {
-        padding: 30px 20px;
+        padding: 20px 15px;
         min-height: 200px;
     }
     
-    .image-icon {
-        font-size: 40px;
-        margin-bottom: 10px;
+    .brand-text h1 {
+        font-size: 24px;
     }
-    
-    .image-content h2 {
-        font-size: 20px;
+    .brand-text h2 {
+        font-size: 18px;
     }
-    
-    .image-content p {
+    .brand-text p {
         font-size: 13px;
+    }
+    .brand-text .sub-text {
+        font-size: 11px;
     }
     
     .login-form {
@@ -569,7 +550,6 @@ body {
     .form-header h1 {
         font-size: 24px;
     }
-    
     .form-header p {
         font-size: 13px;
     }
