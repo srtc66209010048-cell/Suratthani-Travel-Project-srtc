@@ -47,15 +47,36 @@ body {
 /* ===== ด้านซ้าย - รูปภาพ ===== */
 .login-image {
     flex: 1;
+    /* พื้นหลังสี + รูปภาพ */
     background: linear-gradient(135deg, #0b3b3c 0%, #1e6f5c 100%);
+    background-image: url('assets/images/login-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 50px 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    min-height: 500px;
 }
 
+/* Overlay สีเข้มให้ข้อความอ่านง่าย */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(11, 59, 60, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* เอฟเฟกต์แสงหมุนรอบ (ตกแต่ง) */
 .login-image::before {
     content: '';
     position: absolute;
@@ -65,6 +86,7 @@ body {
     height: 100%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
     animation: rotateGlow 20s linear infinite;
+    z-index: 0;
 }
 
 @keyframes rotateGlow {
@@ -72,11 +94,12 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* เนื้อหาบนรูป */
 .image-content {
     text-align: center;
     color: #fff;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .image-icon {
@@ -95,6 +118,7 @@ body {
     font-weight: 700;
     margin-bottom: 10px;
     letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .image-content h2 span {
@@ -103,8 +127,9 @@ body {
 
 .image-content p {
     font-size: 16px;
-    opacity: 0.8;
+    opacity: 0.9;
     font-weight: 300;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== ด้านขวา - ฟอร์ม ===== */
@@ -180,6 +205,11 @@ body {
     box-shadow: 0 0 0 4px rgba(30, 111, 92, 0.1);
 }
 
+.input-group input.error {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+}
+
 /* ===== PASSWORD WRAPPER ===== */
 .password-wrapper {
     position: relative;
@@ -220,6 +250,11 @@ body {
     cursor: pointer;
     font-size: 14px;
     color: #4a5a5a;
+    transition: 0.3s;
+}
+
+.checkbox-label:hover {
+    color: #1e2a2a;
 }
 
 .checkbox-label input {
@@ -295,10 +330,17 @@ body {
 
 .btn-login:active {
     transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(30, 111, 92, 0.2);
 }
 
 .btn-login i {
     font-size: 18px;
+}
+
+.btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* ===== DIVIDER ===== */
@@ -347,6 +389,10 @@ body {
 
 .btn-social:hover {
     transform: translateY(-2px);
+}
+
+.btn-social:active {
+    transform: translateY(0);
 }
 
 .btn-social i {
@@ -431,48 +477,160 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== ADMIN HINT (แจ้งเตือน Admin) ===== */
+.admin-hint {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: rgba(245, 197, 66, 0.1);
+    border: 1px solid rgba(245, 197, 66, 0.2);
+    border-radius: 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-hint i {
+    color: #f5c542;
+    font-size: 16px;
+}
+
+.admin-hint strong {
+    color: #f5c542;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 850px) {
     .login-container {
         flex-direction: column;
         min-height: auto;
+        border-radius: 25px;
     }
     
     .login-image {
         padding: 40px 30px;
-        min-height: 200px;
+        min-height: 250px;
     }
     
     .image-icon {
-        font-size: 60px;
+        font-size: 50px;
     }
     
     .image-content h2 {
-        font-size: 26px;
+        font-size: 24px;
+    }
+    
+    .image-content p {
+        font-size: 14px;
     }
     
     .login-form {
         padding: 35px 30px;
         min-width: unset;
     }
+    
+    .form-header h1 {
+        font-size: 28px;
+    }
 }
 
 @media (max-width: 480px) {
+    .login-wrapper {
+        padding: 0;
+    }
+    
+    .login-container {
+        border-radius: 20px;
+    }
+    
+    .login-image {
+        padding: 30px 20px;
+        min-height: 200px;
+    }
+    
+    .image-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+    
+    .image-content h2 {
+        font-size: 20px;
+    }
+    
+    .image-content p {
+        font-size: 13px;
+    }
+    
     .login-form {
         padding: 25px 20px;
     }
     
     .form-header h1 {
-        font-size: 26px;
+        font-size: 24px;
     }
     
-    .social-buttons {
-        flex-direction: column;
+    .form-header p {
+        font-size: 13px;
     }
     
     .form-options {
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
         align-items: flex-start;
     }
+    
+    .social-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-social {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .btn-login {
+        padding: 14px;
+        font-size: 16px;
+    }
+    
+    .input-group input {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .divider span {
+        font-size: 12px;
+        padding: 0 15px;
+    }
+    
+    .signup-link {
+        font-size: 13px;
+    }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e6f5c;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2d8f7a;
+}
+
+/* ===== SELECTION ===== */
+::selection {
+    background: #1e6f5c;
+    color: #fff;
 }
