@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - Surat Thani Travel</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0b3b3c 0%, #1e6f5c 50%, #2d8f7a 100%);
+            padding: 20px;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .register-container {
+            display: flex;
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            min-height: 600px;
+        }
+
+        /* ด้านซ้าย - รูปภาพ */
+        .register-image {
+            flex: 1;
+            background: linear-gradient(135deg, #0b3b3c 0%, #1e6f5c 100%);
+            background-image: url('https://images.unsplash.com/photo-1589391876645-5b8ff5d9c00b?w=800');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 50px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .register-image .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(11, 59, 60, 0.6);
+            z-index: 1;
+        }
+
+        .register-image .content {
+            text-align: center;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .register-image .content .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .register-image .content h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .register-image .content h2 span {
+            color: #f5c542;
+        }
+
+        .register-image .content p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ด้านขวา - ฟอร์ม */
+        .register-form {
+            flex: 1;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+            min-width: 350px;
+        }
+
+        .register-form .form-header {
+            margin-bottom: 25px;
+        }
+
+        .register-form .form-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e2a2a;
+            margin-bottom: 8px;
+        }
+
+        .register-form .form-header h1::before {
+            content: '🎉 ';
+        }
+
+        .register-form .form-header p {
+            color: #7a8a8a;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        .register-form .input-group {
+            margin-bottom: 16px;
+        }
+
+        .register-form .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e2a2a;
+            margin-bottom: 6px;
+        }
+
+        .register-form .input-group label i {
+            color: #1e6f5c;
+            margin-right: 8px;
+        }
+
+        .register-form .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8ecec;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+            background: #f8faf9;
+            color: #1e2a2a;
+        }
+
+        .register-form .input-group input::placeholder {
+            color: #b0c0c0;
+        }
+
+        .register-form .input-group input:focus {
+            border-color: #1e6f5c;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(30, 111, 92, 0.1);
+        }
+
+        .register-form .input-group .password-wrapper {
+            position: relative;
+        }
+
+        .register-form .input-group .password-wrapper input {
+            padding-right: 50px;
+        }
+
+        .register-form .input-group .password-wrapper .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #b0c0c0;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .register-form .input-group .password-wrapper .toggle-password:hover {
+            color: #1e6f5c;
+        }
+
+        .register-form .btn-register {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1e6f5c 0%, #2d8f7a 100%);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .register-form .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(30, 111, 92, 0.3);
+        }
+
+        .register-form .btn-register:active {
+            transform: translateY(0);
+        }
+
+        .register-form .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .register-form .divider::before,
+        .register-form .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8ecec;
+        }
+
+        .register-form .divider span {
+            padding: 0 20px;
+            color: #b0c0c0;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .register-form .login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4a5a5a;
+        }
+
+        .register-form .login-link a {
+            color: #1e6f5c;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .register-form .login-link a:hover {
+            color: #f5c542;
+            text-decoration: underline;
+        }
+
+        .register-form .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: 14px;
+            display: none;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .register-form .success-message {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-top: 12px;
+            text-align: center;
+            border: 1px solid rgba(46, 213, 115, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .register-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .register-image {
+                padding: 30px 20px;
+                min-height: 200px;
+            }
+            .register-image .content .icon {
+                font-size: 50px;
+            }
+            .register-image .content h2 {
+                font-size: 24px;
+            }
+            .register-form {
+                padding: 30px 25px;
+                min-width: unset;
+            }
+            .register-form .form-header h1 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .register-form {
+                padding: 20px;
+            }
+            .register-form .form-header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-wrapper">
+        <div class="register-container">
+            <!-- ด้านซ้าย - รูปภาพ -->
+            <div class="register-image">
+                <div class="overlay"></div>
+                <div class="content">
+                    <div class="icon">🏝️</div>
+                    <h2>Surat <span>Thani</span></h2>
+                    <p>Travel</p>
+                    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">เริ่มต้นการเดินทางของคุณวันนี้</p>
+                </div>
+            </div>
+
+            <!-- ด้านขวา - ฟอร์มสมัครสมาชิก -->
+            <div class="register-form">
+                <div class="form-header">
+                    <h1>สมัครสมาชิก</h1>
+                    <p>สร้างบัญชีเพื่อเริ่มวางแผนการเดินทาง</p>
+                </div>
+
+                <form id="registerForm">
+                    <!-- ชื่อ -->
+                    <div class="input-group">
+                        <label for="fullname"><i class="fas fa-user"></i> ชื่อ-นามสกุล</label>
+                        <input type="text" id="fullname" placeholder="กรอกชื่อ-นามสกุลของคุณ" required>
+                    </div>
+
+                    <!-- อีเมล -->
+                    <div class="input-group">
+                        <label for="email"><i class="fas fa-envelope"></i> อีเมล</label>
+                        <input type="email" id="email" placeholder="กรอกอีเมลของคุณ" required>
+                    </div>
+
+                    <!-- เบอร์โทร -->
+                    <div class="input-group">
+                        <label for="phone"><i class="fas fa-phone"></i> เบอร์โทรศัพท์</label>
+                        <input type="tel" id="phone" placeholder="กรอกเบอร์โทรของคุณ (ไม่บังคับ)">
+                    </div>
+
+                    <!-- รหัสผ่าน -->
+                    <div class="input-group">
+                        <label for="password"><i class="fas fa-lock"></i> รหัสผ่าน</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" placeholder="กรอกรหัสผ่าน (อย่างน้อย 6 ตัว)" required>
+                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <!-- ยืนยันรหัสผ่าน -->
+                    <div class="input-group">
+                        <label for="confirmPassword"><i class="fas fa-check-circle"></i> ยืนยันรหัสผ่าน</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
+                            <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+                        </div>
+                    </div>
+
+                    <!-- ข้อตกลง -->
+                    <div class="input-group" style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 400; font-size: 14px;">
+                            <input type="checkbox" id="agreeTerms" required style="width: 18px; height: 18px; accent-color: #1e6f5c;">
+                            ฉันยอมรับ <a href="#" style="color: #1e6f5c; text-decoration: none;" onclick="alert('ข้อตกลงและเงื่อนไขการใช้งาน')">ข้อตกลงและเงื่อนไข</a> ของ Surat Thani Travel
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-register">
+                        <i class="fas fa-user-plus"></i> สมัครสมาชิก
+                    </button>
+                </form>
+
+                <!-- ตัวแบ่ง -->
+                <div class="divider">
+                    <span>หรือ</span>
+                </div>
+
+                <!-- ลิงก์ไปหน้า Login -->
+                <div class="login-link">
+                    มีบัญชีอยู่แล้ว? <a href="index.html">เข้าสู่ระบบ</a>
+                </div>
+
+                <!-- ข้อความ error/success -->
+                <div id="registerMessage" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ระบบสมัครสมาชิก Surat Thani Travel
+        // ============================================
+
+        // ===== 1. แสดง/ซ่อนรหัสผ่าน =====
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        // ===== 2. ตรวจสอบความแข็งแรงของรหัสผ่าน =====
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]+/)) strength++;
+            if (password.match(/[A-Z]+/)) strength++;
+            if (password.match(/[0-9]+/)) strength++;
+            if (password.match(/[$@#&!]+/)) strength++;
+            return strength;
+        }
+
+        // ===== 3. จัดการฟอร์ม =====
+        const registerForm = document.getElementById('registerForm');
+        const messageEl = document.getElementById('registerMessage');
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+
+            // ตรวจสอบความถูกต้อง
+            if (!fullname) {
+                showError('⚠️ กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            if (!email) {
+                showError('⚠️ กรุณากรอกอีเมล');
+                return;
+            }
+
+            // ตรวจสอบรูปแบบอีเมล
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('⚠️ กรุณากรอกอีเมลให้ถูกต้อง (example@email.com)');
+                return;
+            }
+
+            if (!password) {
+                showError('⚠️ กรุณากรอกรหัสผ่าน');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('⚠️ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('⚠️ รหัสผ่านไม่ตรงกัน กรุณากรอกใหม่');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showError('⚠️ กรุณายอมรับข้อตกลงและเงื่อนไข');
+                return;
+            }
+
+            // ===== ตรวจสอบว่าอีเมลซ้ำหรือไม่ =====
+            const existingUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            if (existingUsers[email]) {
+                showError('❌ อีเมลนี้มีผู้ใช้งานแล้ว กรุณาใช้อีเมลอื่น');
+                return;
+            }
+
+            // ===== บันทึกข้อมูลผู้ใช้ =====
+            const newUser = {
+                name: fullname,
+                email: email,
+                phone: phone || '-',
+                password: password,
+                role: 'user',
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(fullname)}&background=random&size=256`,
+                registeredAt: new Date().toISOString()
+            };
+
+            // บันทึกใน localStorage
+            existingUsers[email] = newUser;
+            localStorage.setItem('registeredUsers', JSON.stringify(existingUsers));
+
+            // แสดงข้อความสำเร็จ
+            showSuccess('✅ สมัครสมาชิกสำเร็จ! กำลังนำคุณไปยังหน้าเข้าสู่ระบบ...');
+
+            // รอ 2 วินาทีแล้วไปหน้า Login
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+
+        // ===== 4. ฟังก์ชันแสดงข้อความ =====
+        function showError(message) {
+            messageEl.className = 'error-message';
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function showSuccess(message) {
+            messageEl.className = 'success-message';
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ===== 5. ตรวจสอบความแข็งแรงของรหัสผ่านแบบ Real-time =====
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirmPassword');
+
+        passwordInput.addEventListener('input', function() {
+            const strength = checkPasswordStrength(this.value);
+            let color = '#ff6b6b';
+            let text = 'อ่อน';
+            
+            if (strength >= 4) {
+                color = '#2ed573';
+                text = 'แข็งแรงมาก';
+            } else if (strength >= 3) {
+                color = '#f5c542';
+                text = 'ปานกลาง';
+            } else if (strength >= 2) {
+                color = '#ff9f43';
+                text = 'พอใช้';
+            }
+
+            // แสดงความแข็งแรง
+            let strengthEl = document.getElementById('passwordStrength');
+            if (!strengthEl && this.value.length > 0) {
+                strengthEl = document.createElement('div');
+                strengthEl.id = 'passwordStrength';
+                strengthEl.style.cssText = `
+                    font-size: 12px;
+                    margin-top: 4px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                `;
+                this.parentElement.appendChild(strengthEl);
+            }
+
+            if (strengthEl) {
+                if (this.value.length === 0) {
+                    strengthEl.remove();
+                } else {
+                    strengthEl.innerHTML = `
+                        <span style="color: ${color};">●</span>
+                        <span style="color: #6b7280;">ความแข็งแรง: <strong style="color: ${color};">${text}</strong></span>
+                    `;
+                }
+            }
+        });
+
+        // ===== 6. ตรวจสอบรหัสผ่านตรงกัน Real-time =====
+        confirmInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirm = this.value;
+            
+            let matchEl = document.getElementById('passwordMatch');
+            if (!matchEl && this.value.length > 0) {
+                matchEl = document.createElement('div');
+                matchEl.id = 'passwordMatch';
+                matchEl.style.cssText = 'font-size: 12px; margin-top: 4px;';
+                this.parentElement.appendChild(matchEl);
+            }
+
+            if (matchEl) {
+                if (this.value.length === 0) {
+                    matchEl.remove();
+                } else if (password === confirm) {
+                    matchEl.innerHTML = '<span style="color: #2ed573;">✅ รหัสผ่านตรงกัน</span>';
+                } else {
+                    matchEl.innerHTML = '<span style="color: #ff6b6b;">❌ รหัสผ่านไม่ตรงกัน</span>';
+                }
+            }
+        });
+
+        console.log('✅ ระบบสมัครสมาชิกพร้อมทำงาน!');
+    </script>
+</body>
+</html>
