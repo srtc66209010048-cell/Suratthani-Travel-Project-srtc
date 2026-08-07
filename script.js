@@ -2,19 +2,44 @@
 // ระบบ Login Surat Thani Travel
 // ============================================
 
-// ===== 1. ข้อมูลผู้ใช้ (จำลอง) =====
-const USERS = {
-    'user@surat.com': {
-        password: 'user123',
-        role: 'user',
-        name: 'ผู้ใช้ทั่วไป'
-    },
-    'admin@surat.com': {
-        password: 'admin123',
-        role: 'admin',
-        name: 'ผู้ดูแลระบบ'
-    }
-};
+// ===== 1. ข้อมูลผู้ใช้ (รวมจากระบบ Register) =====
+function getUsers() {
+    // ผู้ใช้เริ่มต้น
+    const defaultUsers = {
+        'admin@surat.com': {
+            password: 'admin123',
+            role: 'admin',
+            name: 'ผู้ดูแลระบบ'
+        },
+        'user@surat.com': {
+            password: 'user123',
+            role: 'user',
+            name: 'ผู้ใช้ทั่วไป'
+        }
+    };
+
+    // ดึงผู้ใช้ที่สมัครจาก localStorage
+    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+    
+    // สร้าง object สำหรับผู้ใช้ทั้งหมด
+    const allUsers = {};
+    
+    // เพิ่มผู้ใช้เริ่มต้น (เฉพาะที่ยังไม่มีใน registeredUsers)
+    Object.keys(defaultUsers).forEach(key => {
+        allUsers[key] = defaultUsers[key];
+    });
+    
+    // เพิ่มผู้ใช้ที่สมัครใหม่ (หรืออัปเดตข้อมูล)
+    Object.keys(registeredUsers).forEach(key => {
+        allUsers[key] = {
+            password: registeredUsers[key].password,
+            role: registeredUsers[key].role || 'user',
+            name: registeredUsers[key].name
+        };
+    });
+    
+    return allUsers;
+}
 
 // ===== 2. แสดง/ซ่อนรหัสผ่าน =====
 const togglePassword = document.getElementById('togglePassword');
@@ -39,20 +64,27 @@ if (loginForm) {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
 
+        // ตรวจสอบว่ากรอกครบหรือไม่
         if (email === '' || password === '') {
             showError('⚠️ กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน');
             return;
         }
 
+        // ตรวจสอบความยาวรหัสผ่าน
         if (password.length < 6) {
             showError('⚠️ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร');
             return;
         }
 
+        // ดึงข้อมูลผู้ใช้ทั้งหมด
+        const USERS = getUsers();
+
+        // ตรวจสอบว่ามีผู้ใช้นี้อยู่ในระบบหรือไม่
         if (USERS[email]) {
             const user = USERS[email];
             
             if (password === user.password) {
+                // ✅ Login สำเร็จ
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userRole', user.role);
@@ -175,3 +207,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('✅ Surat Thani Travel - ระบบ Login พร้อมทำงาน!');
+console.log('👤 ผู้ใช้ที่ลงทะเบียน:', Object.keys(getUsers()));
