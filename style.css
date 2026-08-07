@@ -48,7 +48,6 @@ body {
 .login-image {
     flex: 1;
     background-color: #0b3b3c;
-    background-image: url('assets/images/login-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -344,10 +343,6 @@ body {
     transform: translateY(0);
 }
 
-.btn-login i {
-    font-size: 18px;
-}
-
 /* ===== DIVIDER ===== */
 .divider {
     display: flex;
@@ -394,10 +389,6 @@ body {
 
 .btn-social:hover {
     transform: translateY(-2px);
-}
-
-.btn-social:active {
-    transform: translateY(0);
 }
 
 .btn-social i {
@@ -588,29 +579,4 @@ body {
     .signup-link {
         font-size: 13px;
     }
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #1e6f5c;
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #2d8f7a;
-}
-
-/* ===== SELECTION ===== */
-::selection {
-    background: #1e6f5c;
-    color: #fff;
 }
