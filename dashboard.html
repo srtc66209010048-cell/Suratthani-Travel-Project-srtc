@@ -3,175 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Thani Travel - หน้าแรก</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>จัดการสถานที่ท่องเที่ยว</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Thai) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        .dashboard-container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
+        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
+        
+        /* Custom Sidebar Gradient */
+        .sidebar-bg { 
+            background: linear-gradient(180deg, #004d40 0%, #00695c 100%); 
+            width: 260px;
         }
-        .dashboard-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            text-align: center;
-        }
-        .welcome-icon {
-            font-size: 60px;
-            color: #f5c542;
-            margin-bottom: 20px;
-        }
-        .dashboard-card h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .dashboard-card h1 span {
-            color: #f5c542;
-        }
-        .dashboard-card p {
-            opacity: 0.8;
-            margin-bottom: 30px;
-        }
-        .btn-logout {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            padding: 12px 30px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .btn-logout:hover {
-            background: rgba(255, 107, 107, 0.3);
-            transform: scale(1.05);
-        }
-        .btn-admin {
-            display: inline-block;
-            margin-top: 15px;
-            background: rgba(245, 197, 66, 0.2);
-            color: #f5c542;
-            border: 1px solid rgba(245, 197, 66, 0.3);
-            padding: 10px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .btn-admin:hover {
-            background: rgba(245, 197, 66, 0.3);
-            transform: scale(1.05);
-        }
-        .user-info {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 15px;
-            margin: 20px 0;
-        }
-        .travel-places {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .place-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.3s;
-        }
-        .place-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-5px);
-        }
-        .place-card i {
-            font-size: 30px;
-            color: #f5c542;
-            margin-bottom: 10px;
-        }
-        .place-card h4 {
-            margin-bottom: 5px;
-        }
-        .place-card p {
-            font-size: 13px;
-            opacity: 0.7;
-            margin-bottom: 0;
-        }
-        .brand-text {
-            color: #f5c542;
-            font-weight: 700;
-        }
+        
+        .custom-shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05); }
+        .custom-card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
     </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <div class="dashboard-card">
-            <div class="welcome-icon">🏝️</div>
-            <h1>ยินดีต้อนรับสู่ <span>Surat Thani Travel</span></h1>
-            <p>ค้นพบสถานที่ท่องเที่ยวสวยงามในจังหวัดสุราษฎร์ธานี</p>
-            
-            <div class="user-info">
-                <i class="fas fa-user-circle" style="font-size: 24px; color: #f5c542;"></i>
-                <p style="margin-top: 10px; font-size: 18px;">
-                    สวัสดี! <strong id="userDisplay">ผู้ใช้</strong>
-                </p>
-                <p style="font-size: 14px; opacity: 0.6;">
-                    <i class="fas fa-clock"></i> เข้าสู่ระบบเมื่อ: <span id="loginTimeDisplay"></span>
-                </p>
-            </div>
+<body class="flex h-screen overflow-hidden">
 
-            <!-- สถานที่แนะนำ -->
-            <h3 style="margin-top: 30px; color: #f5c542;">
-                <i class="fas fa-map-marked-alt"></i> สถานที่แนะนำ
-            </h3>
-            <div class="travel-places">
-                <div class="place-card">
-                    <i class="fas fa-umbrella-beach"></i>
-                    <h4>เกาะสมุย</h4>
-                    <p>หาดทรายขาว น้ำทะเลใส</p>
-                </div>
-                <div class="place-card">
-                    <i class="fas fa-mountain"></i>
-                    <h4>เขาสก</h4>
-                    <p>ป่าเขาและทะเลสาบ</p>
-                </div>
-                <div class="place-card">
-                    <i class="fas fa-water"></i>
-                    <h4>หมู่เกาะอ่างทอง</h4>
-                    <p>อุทยานแห่งชาติทางทะเล</p>
-                </div>
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
-                <button class="btn-logout" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                </button>
-                <a href="admin-dashboard.html" class="btn-admin">
-                    <i class="fas fa-user-shield"></i> ไปหน้า Admin
-                </a>
+    <!-- SIDEBAR (เมนูด้านซ้าย) -->
+    <aside class="sidebar-bg text-white flex flex-col h-full fixed left-0 top-0 z-20 shadow-xl">
+        <!-- โลโก้ -->
+        <div class="p-6 flex items-center gap-3">
+            <i class="fas fa-umbrella-beach text-3xl text-yellow-300"></i>
+            <div>
+                <h1 class="text-xl font-bold leading-tight">Surat Thani</h1>
+                <p class="text-[10px] text-green-200 tracking-wider">Travel</p>
             </div>
         </div>
-    </div>
 
-    <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const name = localStorage.getItem('userName') || 'ผู้ใช้';
-            document.getElementById('userDisplay').textContent = name;
-            
-            const loginTime = localStorage.getItem('loginTime');
-            if (loginTime) {
-                const date = new Date(loginTime);
-                document.getElementById('loginTimeDisplay').textContent = 
-                    date.toLocaleString('th-TH');
-            }
-        });
-    </script>
+        <!-- โปรไฟล์ผู้ใช้ -->
+        <div class="px-6 pb-6 border-b border-green-700/30">
+            <div class="flex items-center gap-3">
+                <img src="https://ui-avatars.com/api/?name=User+One&background=random&size=128" alt="User" class="w-10 h-10 rounded-full border-2 border-white/20">
+                <div class="flex-1">
+                    <p class="font-semibold text-sm">สมาชิก</p>
+                    <p class="text-[10px] text-green-200">ผู้ใช้ทั่วไป</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- เมนูนำทาง -->
+        <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
+                <i class="fas fa-home w-5"></i> <span class="text-sm">แดชบอร์ด</span>
+            </a>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200">
+                <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm font-medium">สถานที่ท่องเที่ยว</span>
+            </a>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
+                <i class="fas fa-calendar-check w-5"></i> <span class="text-sm">กิจกรรม</span>
+            </a>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
+                <i class="fas fa-user w-5"></i> <span class="text-sm">โปรไฟล์ของฉัน</span>
+            </a>
+        </nav>
+
+        <!-- ปุ่มออกจากระบบ -->
+        <div class="p-6 border-t border-green-700/30">
+            <a href="index.html" class="flex items-center justify-center w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-200 gap-2 text-sm font-medium">
+                <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT (เนื้อหาหลัก) -->
+    <main class="ml-[260px] flex-1 flex flex-col h-screen overflow-hidden bg-[#f8fafc] p-6">
+        
+        <!-- ส่วนหัวเรื่องด้านบน -->
+        <header class="bg-white rounded-2xl p-6 mb-6 custom-shadow flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-2xl font-bold text-gray-800">สถานที่ท่องเที่ยว</h2>
+                    <i class="fas fa-coconut text-2xl text-green-600"></i>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี</p>
+            </div>
+            <div class="relative">
+                <input type="text" placeholder="ค้นหาสถานที่..." class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm bg-gray-50">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </header>
+
+        <!-- ส่วนตัวกรองสถานที่ (Filter) -->
+        <div class="bg-white rounded-2xl p-6 mb-6 custom-shadow">
+            <div class="flex flex-wrap justify-between items-center gap-4 pb-5">
+                <div class="flex flex-wrap gap-2">
+                    <button class="bg-[#10b981] text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm">
+                        <i class="fas fa-th-large"></i> ทั้งหมด
+                    </button>
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                        <i class="fas fa-water"></i> ทะเล
+                    </button>
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                        <i class="fas fa-mountain"></i> ธรรมชาติ
+                    </button>
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                        <i class="fas fa-landmark"></i> วัด
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ส่วนรายการการ์ดสถานที่ (GRID VIEW) -->
+        <div class="flex-1 overflow-y-auto pb-4 pr-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                
+                <!-- การ์ด 1: เกาะสมุย -->
+                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะสมุย</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">เกาะสวรรค์กลางอ่าวไทย ที่มีชายหาดขาวสะอาด น้ำทะเลใสแจ๋ว ท่ามกลางธรรมชาติ</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: เดินทางโดยเครื่องบิน หรือเรือเฟอร์รี่จากท่าเรือดอนสัก</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 120 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
+                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เขื่อนเชี่ยวหลาน</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.พนม</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">หนึ่งในเขื่อนที่สวยที่สุดของประเทศไทย มีผืนน้ำสีเขียวมรกตล้อมรอบด้วยเทือกเขาหินปูน</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับรถตามทางหลวงหมายเลข 401 มุ่งหน้าอำเภอพนม</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ธรรมชาติ</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 98 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
+                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">วัดพระบรมธาตุไชยา</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.ไชยา</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">เจดีย์ทรงระฆังสีทองอร่าม สัญลักษณ์สำคัญของจังหวัดสุราษฎร์ธานี ศักดิ์สิทธิ์และเก่าแก่</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ริมทางหลวงหมายเลข 41 อำเภอไชยา</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ศาสนสถาน</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 85 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การ์ด 4: น้ำตกธารเสด็จ -->
+                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">น้ำตกธารเสด็จ</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.บ้านนาสาร</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">น้ำตกที่มีชื่อเสียงที่สุดของภาคใต้ น้ำไหลลดหลั่นเป็นชั้นๆ เหมาะแก่การพักผ่อน</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ขับไปตามทางหลวงหมายเลข 4009 มุ่งหน้าอำเภอบ้านนาสาร</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> น้ำตก</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 70 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การ์ด 5: เกาะเต่า -->
+                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">เกาะเต่า</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะพะงัน</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">สวรรค์ของนักดำน้ำ น้ำทะเลใสราวกระจก หาดทรายขาวละเอียด</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: นั่งเรือสปีดโบ๊ทจากเกาะพะงันหรือท่าเรือดอนสัก</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ทะเล</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 210 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- การ์ด 6: หาดในพัง -->
+                 <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                    <div class="relative h-52 bg-gray-100">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight mb-1">หาดในพัง</h3>
+                            <p class="text-xs text-gray-500 mb-3 flex items-center gap-1.5"><i class="fas fa-map-pin text-[#0f766e]"></i> อ.เกาะสมุย</p>
+                            <p class="text-sm text-gray-600 mb-2 line-clamp-2">ชายหาดที่เงียบสงบที่สุดของเกาะสมุย น้ำทะเลนิ่งใส เหมาะกับการพักผ่อนส่วนตัว</p>
+                            <p class="text-xs text-[#0f766e] font-medium mb-2"><i class="fas fa-route mr-1"></i> เส้นทาง: ตั้งอยู่ทางตอนใต้ของเกาะสมุย</p>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-gray-500 border-t pt-3 mt-auto">
+                            <div class="flex items-center gap-1.5 bg-green-50 text-[#0f766e] px-2 py-1 rounded-full"><i class="fas fa-tag"></i> ชายหาด</div>
+                            <div class="flex items-center gap-1.5"><i class="fas fa-star text-yellow-400"></i> 54 รีวิว</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ส่วนแบ่งหน้า (Pagination) -->
+            <div class="flex justify-center items-center mt-8 pt-4 text-sm text-gray-500">
+                <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-gray-100 shadow-sm">
+                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-left text-xs"></i></button>
+                    <button class="w-8 h-8 rounded-lg bg-[#0f766e] text-white font-medium shadow-sm flex items-center justify-center">1</button>
+                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition">2</button>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
