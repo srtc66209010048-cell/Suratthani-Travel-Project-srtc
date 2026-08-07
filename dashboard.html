@@ -885,33 +885,121 @@
         }
 
         // ===== 9. เมนูนำทาง =====
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.getAttribute('data-page');
-                
-                document.querySelectorAll('nav a').forEach(a => {
-                    a.classList.remove('bg-white/20', 'text-white');
-                    a.classList.add('text-gray-300');
-                });
-                
-                this.classList.remove('text-gray-300');
-                this.classList.add('bg-white/20', 'text-white');
-                
-                if (page === 'places') {
-                    renderPlacesPage();
-                    showNotification('📍 กำลังแสดงสถานที่ท่องเที่ยวทั้งหมด');
-                }
-                else if (page === 'activities') {
-                    renderActivitiesPage();
-                    showNotification('🎯 กำลังเปิดหน้ากิจกรรม');
-                }
-                else if (page === 'profile') {
-                    renderProfilePage();
-                    showNotification('👤 กำลังเปิดโปรไฟล์ของฉัน');
-                }
-            });
+        // ===== 8. หน้าโปรไฟล์ =====
+function renderProfilePage() {
+    const contentArea = document.getElementById('contentArea');
+    const filterSection = document.getElementById('filterSection');
+    const searchContainer = document.getElementById('searchContainer');
+    
+    filterSection.style.display = 'none';
+    searchContainer.style.display = 'none';
+    
+    contentArea.innerHTML = `
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 w-full max-w-2xl">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800">👤 โปรไฟล์ของฉัน</h3>
+                    <p class="text-gray-500 text-sm">จัดการข้อมูลส่วนตัวของคุณ</p>
+                </div>
+
+                <!-- Avatar -->
+                <div class="flex flex-col items-center mb-8">
+                    <div class="profile-avatar-wrapper">
+                        <img src="${userData.avatar}" alt="Profile" id="profileAvatar" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg">
+                        <label for="avatarInput" class="avatar-edit-btn">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2">คลิกไอคอนกล้องเพื่อเปลี่ยนรูป</p>
+                </div>
+
+                <!-- ฟอร์ม -->
+                <form class="profile-form" id="profileForm">
+                    <div class="form-group mb-4">
+                        <label class="font-semibold text-gray-700 block mb-1"><i class="fas fa-user text-green-600 mr-2"></i> ชื่อ-นามสกุล</label>
+                        <input type="text" id="profileName" value="${userData.name}" class="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-600 focus:outline-none">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-semibold text-gray-700 block mb-1"><i class="fas fa-envelope text-green-600 mr-2"></i> อีเมล</label>
+                        <input type="email" id="profileEmail" value="${userData.email}" class="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-600 focus:outline-none">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-semibold text-gray-700 block mb-1"><i class="fas fa-phone text-green-600 mr-2"></i> เบอร์โทรศัพท์</label>
+                        <input type="tel" id="profilePhone" value="${userData.phone}" class="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-600 focus:outline-none">
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-semibold text-gray-700 block mb-1"><i class="fas fa-align-left text-green-600 mr-2"></i> เกี่ยวกับฉัน</label>
+                        <textarea id="profileBio" rows="3" class="w-full p-3 border-2 border-gray-200 rounded-xl focus:border-green-600 focus:outline-none">${userData.bio}</textarea>
+                    </div>
+
+                    <div class="flex gap-4 mt-2">
+                        <button type="submit" class="bg-green-700 text-white px-8 py-3 rounded-xl font-semibold hover:bg-green-800 transition">
+                            <i class="fas fa-save mr-2"></i> บันทึกข้อมูล
+                        </button>
+                        <button type="button" class="bg-gray-200 text-gray-600 px-6 py-3 rounded-xl font-semibold hover:bg-gray-300 transition" onclick="renderPlacesPage()">
+                            <i class="fas fa-times mr-2"></i> ยกเลิก
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    // Event: เปลี่ยนรูป Avatar
+    const avatarInput = document.getElementById('avatarInput');
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const avatarImg = document.getElementById('profileAvatar');
+                    if (avatarImg) {
+                        avatarImg.src = event.target.result;
+                        userData.avatar = event.target.result;
+                        updateUserUI();
+                        showNotification('✅ เปลี่ยนรูปโปรไฟล์สำเร็จ!');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
         });
+    }
+
+    // Event: บันทึกข้อมูล
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('profileName').value.trim();
+            const email = document.getElementById('profileEmail').value.trim();
+            const phone = document.getElementById('profilePhone').value.trim();
+            const bio = document.getElementById('profileBio').value.trim();
+
+            if (!name) {
+                showNotification('⚠️ กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            userData.name = name || userData.name;
+            userData.email = email || userData.email;
+            userData.phone = phone || userData.phone;
+            userData.bio = bio || userData.bio;
+
+            updateUserUI();
+            showNotification('✅ บันทึกข้อมูลสำเร็จ!');
+            
+            // อัปเดต Sidebar
+            const sidebarName = document.getElementById('sidebarUserName');
+            if (sidebarName) sidebarName.textContent = userData.name;
+        });
+    }
+}
 
         // ===== 10. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
