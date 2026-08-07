@@ -22,6 +22,18 @@
         
         .custom-shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05); }
         .custom-card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+
+        /* Animation for notification */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .notification-in { animation: slideIn 0.5s ease forwards; }
+        .notification-out { animation: slideOut 0.5s ease forwards; }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -50,16 +62,16 @@
 
         <!-- เมนูนำทาง -->
         <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
-                <i class="fas fa-home w-5"></i> <span class="text-sm">แดชบอร์ด</span>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200" data-page="dashboard">
+                <i class="fas fa-home w-5"></i> <span class="text-sm font-medium">แดชบอร์ด</span>
             </a>
-            <a href="#" class="flex items-center gap-4 px-4 py-3 bg-white/20 text-white rounded-xl shadow-inner transition-all duration-200">
-                <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm font-medium">สถานที่ท่องเที่ยว</span>
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="places">
+                <i class="fas fa-map-marker-alt w-5"></i> <span class="text-sm">สถานที่ท่องเที่ยว</span>
             </a>
-            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="activities">
                 <i class="fas fa-calendar-check w-5"></i> <span class="text-sm">กิจกรรม</span>
             </a>
-            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200">
+            <a href="#" class="flex items-center gap-4 px-4 py-3 text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200" data-page="profile">
                 <i class="fas fa-user w-5"></i> <span class="text-sm">โปรไฟล์ของฉัน</span>
             </a>
         </nav>
@@ -79,10 +91,10 @@
         <header class="bg-white rounded-2xl p-6 mb-6 custom-shadow flex justify-between items-center">
             <div>
                 <div class="flex items-center gap-2">
-                    <h2 class="text-2xl font-bold text-gray-800">สถานที่ท่องเที่ยว</h2>
+                    <h2 class="text-2xl font-bold text-gray-800" id="pageTitle">สถานที่ท่องเที่ยว</h2>
                     <i class="fas fa-coconut text-2xl text-green-600"></i>
                 </div>
-                <p class="text-sm text-gray-500 mt-1">ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี</p>
+                <p class="text-sm text-gray-500 mt-1" id="pageDescription">ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี</p>
             </div>
             <div class="relative">
                 <input type="text" placeholder="ค้นหาสถานที่..." class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm bg-gray-50" id="searchInput">
@@ -91,7 +103,7 @@
         </header>
 
         <!-- ส่วนตัวกรองสถานที่ (Filter) -->
-        <div class="bg-white rounded-2xl p-6 mb-6 custom-shadow">
+        <div class="bg-white rounded-2xl p-6 mb-6 custom-shadow" id="filterSection">
             <div class="flex flex-wrap justify-between items-center gap-4 pb-5">
                 <div class="flex flex-wrap gap-2" id="filterGroup">
                     <button class="bg-[#10b981] text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm" data-filter="all">
@@ -111,7 +123,7 @@
         </div>
 
         <!-- ส่วนรายการการ์ดสถานที่ (GRID VIEW) -->
-        <div class="flex-1 overflow-y-auto pb-4 pr-1">
+        <div class="flex-1 overflow-y-auto pb-4 pr-1" id="contentArea">
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
                 
                 <!-- การ์ด 1: เกาะสมุย -->
@@ -254,27 +266,133 @@
             userDisplay.textContent = userName;
         }
 
-        // ===== 2. เมนูนำทาง =====
+        // ===== 2. เมนูนำทาง (ใช้งานได้จริง) =====
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const text = this.textContent.trim();
+                const page = this.getAttribute('data-page');
                 
+                // ลบคลาส active ทั้งหมด
                 document.querySelectorAll('nav a').forEach(a => {
                     a.classList.remove('bg-white/20', 'text-white');
                     a.classList.add('text-gray-300');
                 });
                 
+                // เพิ่มคลาส active ให้เมนูที่ถูกคลิก
                 this.classList.remove('text-gray-300');
                 this.classList.add('bg-white/20', 'text-white');
                 
-                if (text !== 'สถานที่ท่องเที่ยว') {
-                    alert(`📌 กำลังเปิดหน้า: ${text}`);
+                // ===== จัดการตามเมนูที่คลิก =====
+                const titleElement = document.getElementById('pageTitle');
+                const descElement = document.getElementById('pageDescription');
+                const filterSection = document.getElementById('filterSection');
+                const contentArea = document.getElementById('contentArea');
+                
+                if (page === 'dashboard') {
+                    titleElement.textContent = 'แดชบอร์ด';
+                    descElement.textContent = 'ภาพรวมสถานที่ท่องเที่ยวและกิจกรรมในจังหวัดสุราษฎร์ธานี';
+                    filterSection.style.display = 'flex';
+                    contentArea.style.display = 'flex';
+                    showNotification('🏠 กลับสู่หน้าแดชบอร์ด');
+                }
+                else if (page === 'places') {
+                    titleElement.textContent = 'สถานที่ท่องเที่ยว';
+                    descElement.textContent = 'ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี';
+                    filterSection.style.display = 'flex';
+                    contentArea.style.display = 'flex';
+                    showNotification('📍 กำลังแสดงสถานที่ท่องเที่ยวทั้งหมด');
+                }
+                else if (page === 'activities') {
+                    titleElement.textContent = 'กิจกรรม';
+                    descElement.textContent = 'กิจกรรมและทัวร์ที่น่าสนใจในจังหวัดสุราษฎร์ธานี';
+                    filterSection.style.display = 'none';
+                    contentArea.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                            <i class="fas fa-calendar-check text-6xl text-green-500 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-2">หน้ากิจกรรม</h3>
+                            <p class="text-gray-400">กำลังพัฒนาระบบกิจกรรมท่องเที่ยว...</p>
+                            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                    <h4 class="font-bold text-gray-700">🚤 ล่องเรือเขื่อนรัชชประภา</h4>
+                                    <p class="text-sm text-gray-500">ชมวิวสวยๆ บนเขื่อน</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                    <h4 class="font-bold text-gray-700">🤿 ดำน้ำเกาะเต่า</h4>
+                                    <p class="text-sm text-gray-500">ดำน้ำชมปะการัง</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                    <h4 class="font-bold text-gray-700">🏝️ เที่ยวเกาะสมุย</h4>
+                                    <p class="text-sm text-gray-500">ทัวร์รอบเกาะ</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                    <h4 class="font-bold text-gray-700">🌿 นั่งเรือชมป่าชายเลน</h4>
+                                    <p class="text-sm text-gray-500">สัมผัสธรรมชาติ</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    showNotification('🎯 กำลังเปิดหน้ากิจกรรม');
+                }
+                else if (page === 'profile') {
+                    titleElement.textContent = 'โปรไฟล์ของฉัน';
+                    descElement.textContent = 'จัดการข้อมูลส่วนตัวของคุณ';
+                    filterSection.style.display = 'none';
+                    contentArea.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                            <i class="fas fa-user-circle text-6xl text-green-500 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-2">โปรไฟล์ของฉัน</h3>
+                            <p class="text-gray-400">จัดการข้อมูลส่วนตัวของคุณ</p>
+                            <div class="mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full max-w-md">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://ui-avatars.com/api/?name=${userName}&background=random&size=128" class="w-16 h-16 rounded-full">
+                                    <div>
+                                        <h4 class="font-bold text-gray-700">${userName}</h4>
+                                        <p class="text-sm text-gray-500">ผู้ใช้ทั่วไป</p>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-100 pt-4">
+                                    <p class="text-sm text-gray-600"><i class="fas fa-envelope text-green-500 mr-2"></i> ${localStorage.getItem('userEmail') || 'user@surat.com'}</p>
+                                    <p class="text-sm text-gray-600 mt-2"><i class="fas fa-calendar text-green-500 mr-2"></i> สมาชิกตั้งแต่: 1 มกราคม 2567</p>
+                                </div>
+                                <button class="mt-4 w-full bg-[#0f766e] text-white py-2 rounded-xl hover:bg-[#0d5f59] transition">
+                                    <i class="fas fa-edit"></i> แก้ไขโปรไฟล์
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    showNotification('👤 กำลังเปิดโปรไฟล์ของฉัน');
                 }
             });
         });
 
-        // ===== 3. ปุ่มออกจากระบบ =====
+        // ===== 3. ฟังก์ชันแสดงข้อความแจ้งเตือน =====
+        function showNotification(message) {
+            // ลบ notification เก่าทิ้ง
+            const oldNotif = document.querySelector('.custom-notification');
+            if (oldNotif) oldNotif.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = 'custom-notification fixed top-4 right-4 bg-[#0f766e] text-white px-6 py-4 rounded-xl shadow-lg z-50';
+            notification.style.animation = 'slideIn 0.5s ease forwards';
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check-circle text-xl"></i>
+                    <span class="font-medium">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease forwards';
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        }
+
+        // ===== 4. ปุ่มออกจากระบบ =====
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
             if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
@@ -287,7 +405,7 @@
             }
         });
 
-        // ===== 4. ปุ่มกรองสถานที่ (Filter) =====
+        // ===== 5. ปุ่มกรองสถานที่ (Filter) =====
         const filterButtons = document.querySelectorAll('#filterGroup button');
         const placeCards = document.querySelectorAll('.place-card');
 
@@ -317,7 +435,7 @@
             });
         });
 
-        // ===== 5. ปุ่มค้นหา =====
+        // ===== 6. ปุ่มค้นหา =====
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.addEventListener('input', function() {
@@ -336,16 +454,16 @@
             });
         }
 
-        // ===== 6. คลิกที่การ์ดสถานที่ =====
+        // ===== 7. คลิกที่การ์ดสถานที่ =====
         placeCards.forEach(card => {
             card.style.cursor = 'pointer';
             card.addEventListener('click', function() {
                 const title = this.querySelector('h3')?.textContent || 'สถานที่';
-                alert(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
+                showNotification(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
             });
         });
 
-        // ===== 7. ปุ่ม Pagination =====
+        // ===== 8. ปุ่ม Pagination =====
         document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(btn => {
             btn.addEventListener('click', function() {
                 const text = this.textContent.trim();
@@ -358,7 +476,7 @@
                 this.classList.remove('text-gray-600');
                 this.classList.add('bg-[#0f766e]', 'text-white');
                 
-                alert(`📄 กำลังโหลดหน้า ${text}`);
+                showNotification(`📄 กำลังโหลดหน้า ${text}`);
             });
         });
 
