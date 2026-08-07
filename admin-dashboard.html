@@ -121,6 +121,7 @@
             border: 1px solid rgba(255,255,255,0.08);
             color: #fff;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .stat-card:hover {
@@ -163,14 +164,7 @@
             color: #ff6b6b;
         }
 
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-
+        /* ===== CONTENT CARD ===== */
         .content-card {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
@@ -178,6 +172,7 @@
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.08);
             color: #fff;
+            margin-bottom: 25px;
         }
 
         .content-card .card-header {
@@ -185,6 +180,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .content-card .card-header h3 {
@@ -197,172 +194,175 @@
             margin-right: 10px;
         }
 
-        .content-card .card-header a {
-            color: #f5c542;
-            text-decoration: none;
+        /* ===== TABLE ===== */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 14px;
         }
 
-        /* ===== RECENT BOOKINGS ===== */
-        .booking-list {
-            list-style: none;
-        }
-
-        .booking-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .booking-list li:last-child {
-            border-bottom: none;
-        }
-
-        .booking-list .booking-info h4 {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .booking-list .booking-info p {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-
-        .booking-list .booking-date {
-            font-size: 12px;
-            opacity: 0.5;
-        }
-
-        /* ===== RECENT REVIEWS ===== */
-        .review-list {
-            list-style: none;
-        }
-
-        .review-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .review-list li:last-child {
-            border-bottom: none;
-        }
-
-        .review-list .review-info h4 {
-            font-size: 15px;
-            font-weight: 500;
-        }
-
-        .review-list .review-info p {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-
-        .review-list .review-stars {
+        table thead th {
+            text-align: left;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: 2px solid rgba(255,255,255,0.1);
             color: #f5c542;
-            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
-        /* ===== NOTIFICATIONS ===== */
-        .notification-list {
-            list-style: none;
-        }
-
-        .notification-list li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
+        table tbody td {
+            padding: 12px 15px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            vertical-align: middle;
         }
 
-        .notification-list li:last-child {
-            border-bottom: none;
+        table tbody tr:hover {
+            background: rgba(255,255,255,0.03);
         }
 
-        .notification-list .noti-icon {
+        table tbody td .avatar-sm {
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            background: rgba(245,197,66,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f5c542;
+            object-fit: cover;
         }
 
-        .notification-list .noti-content {
-            flex: 1;
-        }
-
-        .notification-list .noti-content p {
-            font-size: 14px;
-        }
-
-        .notification-list .noti-time {
-            font-size: 12px;
-            opacity: 0.5;
-        }
-
-        /* ===== BOTTOM GRID ===== */
-        .bottom-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        /* ===== POPULAR ACTIVITIES ===== */
-        .activity-list {
-            list-style: none;
-        }
-
-        .activity-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .activity-list li:last-child {
-            border-bottom: none;
-        }
-
-        .activity-list .rank {
-            background: rgba(245,197,66,0.15);
-            color: #f5c542;
-            padding: 4px 12px;
+        .badge-user {
+            background: rgba(46,213,115,0.2);
+            color: #2ed573;
+            padding: 3px 12px;
             border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 500;
         }
 
-        .activity-list .activity-name {
-            flex: 1;
-            margin-left: 15px;
+        .badge-admin {
+            background: rgba(245,197,66,0.2);
+            color: #f5c542;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-delete {
+            background: rgba(255,107,107,0.15);
+            color: #ff6b6b;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+        }
+
+        .btn-delete:hover {
+            background: rgba(255,107,107,0.3);
+            transform: scale(1.05);
+        }
+
+        .btn-edit {
+            background: rgba(245,197,66,0.15);
+            color: #f5c542;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+            margin-right: 5px;
+        }
+
+        .btn-edit:hover {
+            background: rgba(245,197,66,0.3);
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        /* ===== SEARCH ===== */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
             font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+            min-width: 250px;
         }
 
-        .activity-list .activity-count {
-            font-size: 13px;
-            opacity: 0.7;
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .search-box input:focus {
+            border-color: #f5c542;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* ===== ADMIN ACTIONS ===== */
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background: rgba(245,197,66,0.1);
+            border-color: #f5c542;
+            transform: translateY(-5px);
+        }
+
+        .action-btn i {
+            font-size: 28px;
+            color: #f5c542;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .action-btn.active {
+            background: rgba(245,197,66,0.15);
+            border-color: #f5c542;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1200px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .bottom-grid {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -380,6 +380,24 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
+            .search-box {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .search-box input {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            table thead th,
+            table tbody td {
+                padding: 8px 10px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -389,6 +407,18 @@
             
             .admin-header .logo h1 {
                 font-size: 22px;
+            }
+
+            table thead th,
+            table tbody td {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+
+            .btn-delete,
+            .btn-edit {
+                padding: 4px 10px;
+                font-size: 11px;
             }
         }
 
@@ -409,6 +439,33 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #2d8f7a;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 500;
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .toast-success {
+            background: #2ed573;
+        }
+
+        .toast-error {
+            background: #ff6b6b;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -433,9 +490,9 @@
 
     <!-- ===== STATS ===== -->
     <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card" onclick="showUsers()">
             <div class="stat-icon"><i class="fas fa-users"></i></div>
-            <div class="stat-number">1,234</div>
+            <div class="stat-number" id="totalUsers">0</div>
             <div class="stat-label">ผู้ใช้ทั้งหมด</div>
             <span class="stat-change up"><i class="fas fa-arrow-up"></i> 12%</span>
         </div>
@@ -459,180 +516,262 @@
         </div>
     </div>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <div class="main-content">
-        <!-- การจองล่าสุด -->
-        <div class="content-card">
-            <div class="card-header">
-                <h3><i class="fas fa-clock"></i> การจองล่าสุด</h3>
-                <a href="#">ดูทั้งหมด →</a>
-            </div>
-            <ul class="booking-list">
-                <li>
-                    <div class="booking-info">
-                        <h4>🏝️ เกาะสมุย</h4>
-                        <p>โดย น.ส. อรสรา ใจดี</p>
-                    </div>
-                    <span class="booking-date">25 พ.ค. 2567</span>
-                </li>
-                <li>
-                    <div class="booking-info">
-                        <h4>⛰️ อุทยานแห่งชาติเขาสก</h4>
-                        <p>โดย น.ส. วรากรณ์ แก้วคำ</p>
-                    </div>
-                    <span class="booking-date">24 พ.ค. 2567</span>
-                </li>
-                <li>
-                    <div class="booking-info">
-                        <h4>🏯 วัดพระบรมธาตุไชยา</h4>
-                        <p>โดย นาย กิตติคุณ พรหมมา</p>
-                    </div>
-                    <span class="booking-date">23 พ.ค. 2567</span>
-                </li>
-                <li>
-                    <div class="booking-info">
-                        <h4>🌊 เชื้อชนะชัยประภา</h4>
-                        <p>โดย นาย ธนวัฒน์ ศรีสุข</p>
-                    </div>
-                    <span class="booking-date">23 พ.ค. 2567</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- รีวิวล่าสุด + การแจ้งเตือน -->
-        <div class="content-card">
-            <div class="card-header">
-                <h3><i class="fas fa-comments"></i> รีวิวล่าสุด</h3>
-                <a href="#">ดูทั้งหมด →</a>
-            </div>
-            <ul class="review-list">
-                <li>
-                    <div class="review-info">
-                        <h4>🏝️ เกาะสมุย</h4>
-                        <p>โดย <strong>Admin</strong> · ผู้ดูแลระบบ</p>
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="review-info">
-                        <h4>⛰️ อุทยานแห่งชาติเขาสก</h4>
-                        <p>โดย <strong>น.ส. วรากรณ์</strong> · นักท่องเที่ยว</p>
-                        <div class="review-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-
-            <hr style="border: 1px solid rgba(255,255,255,0.05); margin: 20px 0;">
-
-            <div class="card-header">
-                <h3><i class="fas fa-bell"></i> การแจ้งเตือน</h3>
-            </div>
-            <ul class="notification-list">
-                <li>
-                    <div class="noti-icon"><i class="fas fa-calendar-plus"></i></div>
-                    <div class="noti-content">
-                        <p>มีการจองใหม่ เกาะสมุย</p>
-                    </div>
-                    <span class="noti-time">2 นาทีที่แล้ว</span>
-                </li>
-                <li>
-                    <div class="noti-icon"><i class="fas fa-star"></i></div>
-                    <div class="noti-content">
-                        <p>มีรีวิวใหม่ อุทยานแห่งชาติเขาสก</p>
-                    </div>
-                    <span class="noti-time">15 นาทีที่แล้ว</span>
-                </li>
-                <li>
-                    <div class="noti-icon"><i class="fas fa-user-plus"></i></div>
-                    <div class="noti-content">
-                        <p>มีผู้ใช้ใหม่ลงทะเบียน</p>
-                    </div>
-                    <span class="noti-time">1 ชั่วโมงที่แล้ว</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- ===== BOTTOM GRID ===== -->
-    <div class="bottom-grid">
-        <!-- กิจกรรมยอดนิยม -->
-        <div class="content-card">
-            <div class="card-header">
-                <h3><i class="fas fa-fire"></i> กิจกรรมยอดนิยม</h3>
-                <a href="#">ดูทั้งหมด →</a>
-            </div>
-            <ul class="activity-list">
-                <li>
-                    <span class="rank">#1</span>
-                    <span class="activity-name">🚤 ล่องเรือเขื่อนรัชชประภา</span>
-                    <span class="activity-count">120 การจอง</span>
-                </li>
-                <li>
-                    <span class="rank">#2</span>
-                    <span class="activity-name">🤿 ดำน้ำเกาะเต่า</span>
-                    <span class="activity-count">98 การจอง</span>
-                </li>
-                <li>
-                    <span class="rank">#3</span>
-                    <span class="activity-name">🏝️ เที่ยวเกาะสมุย</span>
-                    <span class="activity-count">85 การจอง</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- เมนูจัดการ -->
+    <!-- ===== CONTENT ===== -->
+    <div id="mainContent">
+        <!-- ปุ่มจัดการ -->
         <div class="content-card">
             <div class="card-header">
                 <h3><i class="fas fa-cogs"></i> จัดการระบบ</h3>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <button onclick="alert('เปิดหน้าจัดการสถานที่')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-map-pin" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
-                    จัดการสถานที่
-                </button>
-                <button onclick="alert('เปิดหน้าจัดการผู้ใช้')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-users-cog" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
+            <div class="admin-actions">
+                <button class="action-btn active" onclick="showUsers()">
+                    <i class="fas fa-users-cog"></i>
                     จัดการผู้ใช้
                 </button>
-                <button onclick="alert('เปิดหน้าจัดการกิจกรรม')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-tasks" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
-                    จัดการกิจกรรม
+                <button class="action-btn" onclick="showToast('📌 เปิดหน้าจัดการสถานที่ท่องเที่ยว', 'success')">
+                    <i class="fas fa-map-pin"></i>
+                    จัดการสถานที่
                 </button>
-                <button onclick="alert('เปิดหน้ารายงาน')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-chart-bar" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
+                <button class="action-btn" onclick="showToast('📊 เปิดหน้ารายงาน', 'success')">
+                    <i class="fas fa-chart-bar"></i>
                     รายงาน
                 </button>
-                <button onclick="alert('เปิดหน้าตั๋วค่าธรรมเนียม')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-ticket-alt" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
-                    ตั๋วค่าธรรมเนียม
+                <button class="action-btn" onclick="showToast('⚙️ เปิดหน้าตั้งค่า', 'success')">
+                    <i class="fas fa-cog"></i>
+                    ตั้งค่าระบบ
                 </button>
-                <button onclick="alert('เปิดหน้าจัดการรีวิว')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px;">
-                    <i class="fas fa-star" style="color: #f5c542; display: block; font-size: 24px; margin-bottom: 5px;"></i>
-                    จัดการรีวิว
-                </button>
+            </div>
+        </div>
+
+        <!-- ตารางผู้ใช้ -->
+        <div class="content-card" id="userTableCard">
+            <div class="card-header">
+                <h3><i class="fas fa-users"></i> รายชื่อผู้ใช้ทั้งหมด</h3>
+                <div class="search-box">
+                    <input type="text" id="searchUser" placeholder="🔍 ค้นหาชื่อหรืออีเมล..." oninput="filterUsers()">
+                    <span style="color: rgba(255,255,255,0.3); font-size: 13px;" id="userCount">0 คน</span>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>รูป</th>
+                            <th>ชื่อ</th>
+                            <th>อีเมล</th>
+                            <th>เบอร์โทร</th>
+                            <th>บทบาท</th>
+                            <th>วันที่สมัคร</th>
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- ถูกสร้างโดย JavaScript -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // แสดงชื่อ Admin
+        // ============================================
+        // Admin Dashboard - จัดการผู้ใช้
+        // ============================================
+
+        // ===== 1. แสดงชื่อ Admin =====
         document.addEventListener('DOMContentLoaded', function() {
             const name = localStorage.getItem('userName') || 'Admin';
             document.getElementById('adminName').textContent = name;
+            renderUsers();
         });
+
+        // ===== 2. ดึงข้อมูลผู้ใช้ทั้งหมด =====
+        function getUsers() {
+            // ผู้ใช้เริ่มต้น
+            const defaultUsers = {
+                'admin@surat.com': {
+                    name: 'ผู้ดูแลระบบ',
+                    email: 'admin@surat.com',
+                    phone: '-',
+                    password: 'admin123',
+                    role: 'admin',
+                    avatar: 'https://ui-avatars.com/api/?name=Admin&background=f5c542&size=128',
+                    registeredAt: '2024-01-01T00:00:00.000Z'
+                }
+            };
+
+            // ดึงผู้ใช้ที่สมัครจาก localStorage
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+            
+            // รวมข้อมูล
+            const allUsers = { ...defaultUsers, ...registeredUsers };
+            return allUsers;
+        }
+
+        // ===== 3. แสดงข้อมูลผู้ใช้ในตาราง =====
+        function renderUsers() {
+            const users = getUsers();
+            const tbody = document.getElementById('userTableBody');
+            const userCount = document.getElementById('userCount');
+            const totalUsers = document.getElementById('totalUsers');
+            
+            const userArray = Object.values(users);
+            const count = userArray.length;
+            
+            totalUsers.textContent = count;
+            userCount.textContent = count + ' คน';
+
+            if (count === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <i class="fas fa-users"></i>
+                                <p>ยังไม่มีผู้ใช้ในระบบ</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            userArray.forEach((user, index) => {
+                const roleBadge = user.role === 'admin' 
+                    ? '<span class="badge-admin"><i class="fas fa-user-shield"></i> Admin</span>'
+                    : '<span class="badge-user"><i class="fas fa-user"></i> User</span>';
+                
+                const date = new Date(user.registeredAt);
+                const dateStr = date.toLocaleDateString('th-TH', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>
+                            <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=random&size=128'}" 
+                                 alt="${user.name}" 
+                                 class="avatar-sm">
+                        </td>
+                        <td><strong>${user.name}</strong></td>
+                        <td>${user.email}</td>
+                        <td>${user.phone || '-'}</td>
+                        <td>${roleBadge}</td>
+                        <td style="font-size: 12px; opacity: 0.7;">${dateStr}</td>
+                        <td>
+                            ${user.role !== 'admin' ? `
+                                <button class="btn-edit" onclick="editUser('${user.email}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete" onclick="deleteUser('${user.email}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : `
+                                <span style="opacity: 0.3; font-size: 12px;">ไม่สามารถจัดการได้</span>
+                            `}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // ===== 4. ค้นหาผู้ใช้ =====
+        function filterUsers() {
+            const keyword = document.getElementById('searchUser').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#userTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(keyword)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // ===== 5. ลบผู้ใช้ =====
+        function deleteUser(email) {
+            if (email === 'admin@surat.com') {
+                showToast('❌ ไม่สามารถลบผู้ดูแลระบบหลักได้', 'error');
+                return;
+            }
+
+            if (confirm(`คุณต้องการลบผู้ใช้ "${email}" ใช่หรือไม่?`)) {
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+                delete registeredUsers[email];
+                localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                renderUsers();
+                showToast(`✅ ลบผู้ใช้ "${email}" สำเร็จ`, 'success');
+            }
+        }
+
+        // ===== 6. แก้ไขผู้ใช้ =====
+        function editUser(email) {
+            const users = getUsers();
+            const user = users[email];
+            if (!user) {
+                showToast('❌ ไม่พบผู้ใช้', 'error');
+                return;
+            }
+
+            const newName = prompt('แก้ไขชื่อผู้ใช้:', user.name);
+            if (newName && newName.trim()) {
+                user.name = newName.trim();
+                
+                // อัปเดตใน localStorage
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '{}');
+                if (registeredUsers[email]) {
+                    registeredUsers[email].name = newName.trim();
+                    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                    renderUsers();
+                    showToast(`✅ อัปเดตชื่อผู้ใช้สำเร็จ`, 'success');
+                }
+            }
+        }
+
+        // ===== 7. แสดง Toast =====
+        function showToast(message, type = 'success') {
+            const oldToast = document.querySelector('.toast');
+            if (oldToast) oldToast.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ===== 8. แสดงหน้าการจัดการผู้ใช้ =====
+        function showUsers() {
+            document.querySelectorAll('.action-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.action-btn').classList.add('active');
+            document.getElementById('userTableCard').style.display = 'block';
+            renderUsers();
+        }
+
+        // ===== 9. ฟังก์ชัน Logout =====
+        function logout() {
+            if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('loginTime');
+                window.location.href = 'index.html';
+            }
+        }
+
+        console.log('✅ Admin Dashboard พร้อมทำงาน!');
     </script>
 </body>
 </html>
