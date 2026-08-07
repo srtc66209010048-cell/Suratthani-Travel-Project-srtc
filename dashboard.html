@@ -42,7 +42,7 @@
             <div class="flex items-center gap-3">
                 <img src="https://ui-avatars.com/api/?name=User+One&background=random&size=128" alt="User" class="w-10 h-10 rounded-full border-2 border-white/20">
                 <div class="flex-1">
-                    <p class="font-semibold text-sm">สมาชิก</p>
+                    <p class="font-semibold text-sm" id="userNameDisplay">สมาชิก</p>
                     <p class="text-[10px] text-green-200">ผู้ใช้ทั่วไป</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
 
         <!-- ปุ่มออกจากระบบ -->
         <div class="p-6 border-t border-green-700/30">
-            <a href="index.html" class="flex items-center justify-center w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-200 gap-2 text-sm font-medium">
+            <a href="index.html" class="flex items-center justify-center w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition-all duration-200 gap-2 text-sm font-medium" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
             </a>
         </div>
@@ -85,7 +85,7 @@
                 <p class="text-sm text-gray-500 mt-1">ค้นหาและเลือกสถานที่ท่องเที่ยวในจังหวัดสุราษฎร์ธานี</p>
             </div>
             <div class="relative">
-                <input type="text" placeholder="ค้นหาสถานที่..." class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm bg-gray-50">
+                <input type="text" placeholder="ค้นหาสถานที่..." class="pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm bg-gray-50" id="searchInput">
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
             </div>
         </header>
@@ -93,17 +93,17 @@
         <!-- ส่วนตัวกรองสถานที่ (Filter) -->
         <div class="bg-white rounded-2xl p-6 mb-6 custom-shadow">
             <div class="flex flex-wrap justify-between items-center gap-4 pb-5">
-                <div class="flex flex-wrap gap-2">
-                    <button class="bg-[#10b981] text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm">
+                <div class="flex flex-wrap gap-2" id="filterGroup">
+                    <button class="bg-[#10b981] text-white px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm" data-filter="all">
                         <i class="fas fa-th-large"></i> ทั้งหมด
                     </button>
-                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2" data-filter="ทะเล">
                         <i class="fas fa-water"></i> ทะเล
                     </button>
-                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2" data-filter="ธรรมชาติ">
                         <i class="fas fa-mountain"></i> ธรรมชาติ
                     </button>
-                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2">
+                    <button class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-sm hover:bg-gray-200 transition flex items-center gap-2" data-filter="วัด">
                         <i class="fas fa-landmark"></i> วัด
                     </button>
                 </div>
@@ -112,10 +112,10 @@
 
         <!-- ส่วนรายการการ์ดสถานที่ (GRID VIEW) -->
         <div class="flex-1 overflow-y-auto pb-4 pr-1">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="placeGrid">
                 
                 <!-- การ์ด 1: เกาะสมุย -->
-                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะสมุย">
                     </div>
@@ -134,7 +134,7 @@
                 </div>
 
                 <!-- การ์ด 2: เขื่อนเชี่ยวหลาน -->
-                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ธรรมชาติ">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เขื่อนเชี่ยวหลาน">
                     </div>
@@ -153,7 +153,7 @@
                 </div>
 
                 <!-- การ์ด 3: วัดพระบรมธาตุไชยา -->
-                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="วัด ศาสนสถาน">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="วัดพระบรมธาตุไชยา">
                     </div>
@@ -172,7 +172,7 @@
                 </div>
 
                 <!-- การ์ด 4: น้ำตกธารเสด็จ -->
-                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="น้ำตก ธรรมชาติ">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1598831021459-e4d85d7315c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="น้ำตกธารเสด็จ">
                     </div>
@@ -191,7 +191,7 @@
                 </div>
 
                 <!-- การ์ด 5: เกาะเต่า -->
-                <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1598899134739-24b8d2949dc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="เกาะเต่า">
                     </div>
@@ -210,7 +210,7 @@
                 </div>
                 
                  <!-- การ์ด 6: หาดในพัง -->
-                 <div class="bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full">
+                 <div class="place-card bg-white rounded-2xl overflow-hidden custom-card-shadow hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col h-full" data-tags="ทะเล ชายหาด">
                     <div class="relative h-52 bg-gray-100">
                         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="หาดในพัง">
                     </div>
@@ -236,9 +236,133 @@
                     <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-left text-xs"></i></button>
                     <button class="w-8 h-8 rounded-lg bg-[#0f766e] text-white font-medium shadow-sm flex items-center justify-center">1</button>
                     <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 transition">2</button>
+                    <button class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 transition"><i class="fas fa-chevron-right text-xs"></i></button>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        // ============================================
+        // JavaScript สำหรับหน้า Dashboard (User)
+        // ============================================
+
+        // ===== 1. แสดงชื่อผู้ใช้ =====
+        const userName = localStorage.getItem('userName') || 'สมาชิก';
+        const userDisplay = document.getElementById('userNameDisplay');
+        if (userDisplay) {
+            userDisplay.textContent = userName;
+        }
+
+        // ===== 2. เมนูนำทาง =====
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const text = this.textContent.trim();
+                
+                document.querySelectorAll('nav a').forEach(a => {
+                    a.classList.remove('bg-white/20', 'text-white');
+                    a.classList.add('text-gray-300');
+                });
+                
+                this.classList.remove('text-gray-300');
+                this.classList.add('bg-white/20', 'text-white');
+                
+                if (text !== 'สถานที่ท่องเที่ยว') {
+                    alert(`📌 กำลังเปิดหน้า: ${text}`);
+                }
+            });
+        });
+
+        // ===== 3. ปุ่มออกจากระบบ =====
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('loginTime');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // ===== 4. ปุ่มกรองสถานที่ (Filter) =====
+        const filterButtons = document.querySelectorAll('#filterGroup button');
+        const placeCards = document.querySelectorAll('.place-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-[#10b981]', 'text-white');
+                    b.classList.add('bg-gray-100', 'text-gray-600');
+                });
+                
+                this.classList.remove('bg-gray-100', 'text-gray-600');
+                this.classList.add('bg-[#10b981]', 'text-white');
+                
+                const filter = this.textContent.trim();
+                
+                placeCards.forEach(card => {
+                    const tags = card.getAttribute('data-tags') || '';
+                    
+                    if (filter === 'ทั้งหมด') {
+                        card.style.display = 'flex';
+                    } else if (tags.includes(filter)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // ===== 5. ปุ่มค้นหา =====
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const keyword = this.value.toLowerCase().trim();
+                
+                placeCards.forEach(card => {
+                    const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                    const desc = card.querySelector('p.text-sm')?.textContent.toLowerCase() || '';
+                    
+                    if (title.includes(keyword) || desc.includes(keyword)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ===== 6. คลิกที่การ์ดสถานที่ =====
+        placeCards.forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3')?.textContent || 'สถานที่';
+                alert(`🏝️ กำลังเปิดรายละเอียด: ${title}`);
+            });
+        });
+
+        // ===== 7. ปุ่ม Pagination =====
+        document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const text = this.textContent.trim();
+                if (text === '‹' || text === '›' || text === '') return;
+                
+                document.querySelectorAll('.flex.items-center.gap-1\\.5 .w-8').forEach(b => {
+                    b.classList.remove('bg-[#0f766e]', 'text-white');
+                    b.classList.add('text-gray-600');
+                });
+                this.classList.remove('text-gray-600');
+                this.classList.add('bg-[#0f766e]', 'text-white');
+                
+                alert(`📄 กำลังโหลดหน้า ${text}`);
+            });
+        });
+
+        console.log('✅ Dashboard พร้อมทำงาน!');
+    </script>
 </body>
 </html>
