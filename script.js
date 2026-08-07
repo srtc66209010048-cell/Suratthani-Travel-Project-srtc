@@ -1,5 +1,5 @@
 // ============================================
-// ระบบ Login Surat Thani Travel (แบบใหม่)
+// ระบบ Login Surat Thani Travel
 // ============================================
 
 // ===== 1. ข้อมูลผู้ใช้ (จำลอง) =====
@@ -39,24 +39,20 @@ if (loginForm) {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
 
-        // ตรวจสอบว่ากรอกครบหรือไม่
         if (email === '' || password === '') {
             showError('⚠️ กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน');
             return;
         }
 
-        // ตรวจสอบความยาวรหัสผ่าน
         if (password.length < 6) {
             showError('⚠️ รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร');
             return;
         }
 
-        // ตรวจสอบว่ามีผู้ใช้นี้อยู่ในระบบหรือไม่
         if (USERS[email]) {
             const user = USERS[email];
             
             if (password === user.password) {
-                // ✅ Login สำเร็จ
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('userRole', user.role);
