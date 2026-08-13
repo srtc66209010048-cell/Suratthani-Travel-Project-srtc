@@ -61,7 +61,8 @@ if (loginForm) {
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const email = document.getElementById('email').value.trim();
+        // แก้ไขปัญหา Case-Sensitive ด้วย .toLowerCase()
+        const email = document.getElementById('email').value.trim().toLowerCase();
         const password = document.getElementById('password').value.trim();
 
         // ตรวจสอบว่ากรอกครบหรือไม่
